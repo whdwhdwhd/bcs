@@ -58,7 +58,7 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生地：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择出生地">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
@@ -185,14 +185,14 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="对象出生地：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择对象出生地">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="对象工作公司：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择对象工作公司">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
@@ -201,7 +201,7 @@
                 <el-row class="mt" v-if="1">
                     <el-col :span="8">
                         <el-form-item label="对象工作职位：">
-                            <el-select v-model="value2" placeholder="请选择学历">
+                            <el-select v-model="value2" placeholder="请选择对象工作职位">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
@@ -236,14 +236,14 @@
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="毕业学校：">
-                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod">
+                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入毕业学校" :remote-method="remoteMethod">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="专业：">
-                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod">
+                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入专业" :remote-method="remoteMethod">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -268,7 +268,7 @@
                     <el-row class="mt">
                         <el-col :span="8">
                             <el-form-item label="获奖情况：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择获奖情况">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -285,7 +285,7 @@
                     <el-row class="mt">
                         <el-col :span="8">
                             <el-form-item label="公司名：">
-                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod">
+                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入公司名" :remote-method="remoteMethod">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -304,14 +304,14 @@
                     <el-row class="mt">
                         <el-col :span="8">
                             <el-form-item label="职位方向：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择职位方向">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="职位：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择职位">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -332,7 +332,7 @@
                     <el-row class="mt">
                         <el-col :span="24">
                             <el-form-item label="工作内容：">
-                                <el-input type="textarea" autosize placeholder="请输入内容"></el-input>
+                                <el-input type="textarea" autosize placeholder="请输入工作内容"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -352,7 +352,7 @@
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="证书：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择证书">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -361,7 +361,7 @@
                     <el-row class="mt">
                         <el-col :span="8">
                             <el-form-item label="工具：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择工具">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -370,21 +370,21 @@
                     <el-row class="mt">
                         <el-col :span="8">
                             <el-form-item label="参与产品：">
-                                <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-select v-model="value2" filterable placeholder="请选择参与产品">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="参与周期：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择参与周期">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="重要性：">
-                                <el-select v-model="value2" placeholder="请选择学历">
+                                <el-select v-model="value2" placeholder="请选择重要性">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -395,21 +395,21 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="薪水：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择薪水">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="职位：">
-                            <el-select v-model="value11" multiple placeholder="请选择学历">
+                            <el-select v-model="value11" multiple placeholder="请选择职位">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="工作城市：">
-                            <el-select v-model="value11" multiple placeholder="请选择学历">
+                            <el-select v-model="value11" multiple placeholder="工作城市">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
@@ -423,14 +423,14 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="工作强度：">
-                            <el-select v-model="value2" placeholder="请选择学历">
+                            <el-select v-model="value2" placeholder="请选择工作强度">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="公司类型：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择公司类型">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
@@ -439,21 +439,21 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="公司行业：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择公司行业">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="公司规模：">
-                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                            <el-select v-model="value2" filterable placeholder="请选择公司规模">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="当前状态：">
-                            <el-select v-model="value2" placeholder="请选择学历">
+                            <el-select v-model="value2" placeholder="请选择当前状态">
                                 <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
@@ -461,7 +461,7 @@
                 </el-row>
             </el-form>
         </div>
-        <el-button class="modification" type="primary" @>修改</el-button>
+        <el-button class="modification" type="primary" >修改</el-button>
     </div>
     
   </div>
