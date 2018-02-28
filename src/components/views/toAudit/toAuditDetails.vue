@@ -141,7 +141,7 @@
                         <el-form-item
                             prop="phone"
                             label="手机"
-                            :rules="[{ required: true, message: '请输入手机号码', trigger: 'blur' },{ pattern:/^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur,change' }]">
+                            :rules="[{ pattern:/^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur,change' }]">
                             <el-input v-model="data.phone"></el-input>
                         </el-form-item>
                     </el-col>
@@ -149,11 +149,7 @@
                         <el-form-item
                             prop="email"
                             label="邮箱"
-                            :rules="[
-                            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
-                            ]"
-                        >
+                            :rules="[{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }]">
                             <el-input v-model="data.email"></el-input>
                         </el-form-item>
                     </el-col>
@@ -347,7 +343,7 @@
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="团队规模：">
-                                <el-input ></el-input><span>人</span>
+                                <el-input class="aut"></el-input><span>人</span>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
@@ -618,9 +614,10 @@
       text-align: left;
       line-height: 40px;
       border-bottom: 1px solid #ccc;
+      margin-bottom: 20px;
   }
   .mt{
-      margin-top: 10px;
+      margin-top: 0px;
   }
   .fl{
       float: left;
@@ -644,5 +641,8 @@
   }
   .el-icon-close{
       cursor: pointer;
+  }
+  .aut{
+      width:auto;
   }
 </style>
