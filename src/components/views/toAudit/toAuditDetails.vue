@@ -7,7 +7,19 @@
                 姓名：<span></span>
             </el-col>
             <el-col>
-                简历附件：<span></span>
+                <span class="fl">简历附件：</span>
+                <el-upload class="upload-demo fl" action="https://jsonplaceholder.typicode.com/posts/"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="handleSuccess"
+                :before-upload="beforeAvatarUpload"
+                :before-remove="beforeRemove"
+                :limit="1"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+                <el-button size="small" type="primary" v-if="uploadShow">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip" v-if="uploadShow">文件大小不超过10M</div>
+                </el-upload>
             </el-col>
             <el-col>
                 审核结果：
@@ -24,290 +36,11 @@
         </el-row>
         <div class="bottomBorder">详细简历</div>
         <div class="resume">
-            <!--<el-tabs v-model="activeName">
-                <el-tab-pane label="基本信息" name="first">
-                    <table class="resumeTable" width="100%"  border="1" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td width="25%">性别</td>
-                            <td width="25%">
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                            <td width="25%">出生年月</td>
-                            <td width="25%">
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>出生地</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                            <td>性取向</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">形象</td>
-                        </tr>
-                        <tr>
-                            <td>外形</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                            <td>气质</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>体重</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                            <td>身高</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">性格</td>
-                        </tr>
-                        <tr>
-                            <td>特征</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                            <td>语速</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>思维</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                            <td>风格</td>
-                            <td>
-                                <el-input placeholder="" size="small" clearable></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>语言</td>
-                            <td colspan="3">
-                                <el-input type="textarea" autosize placeholder="请输入内容"></el-input>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">联系方式</td>
-                        </tr>
-                        <tr>
-                            <td>手机号</td>
-                            <td></td>
-                            <td>邮箱</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </el-tab-pane>
-                <el-tab-pane label="家庭情况" name="second">
-                    <table class="resumeTable" width="100%"  border="1" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td width="25%">婚姻</td>
-                            <td colspan="3" width="75%">
-                                <el-radio v-model="marriage" label="1">已婚</el-radio>
-                                <el-radio v-model="marriage" label="2">未婚</el-radio>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">对象城市</td>
-                            <td width="25%"></td>
-                            <td width="25%">对象出生地</td>
-                            <td width="25%"></td>
-                        </tr>
-                        <tr>
-                            <td>对象工作公司</td>
-                            <td></td>
-                            <td>对象工作职位</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td width="25%">孩子</td>
-                            <td colspan="3" width="75%">
-                                <el-radio v-model="child" label="1">有</el-radio>
-                                <el-radio v-model="child" label="2">无</el-radio>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>孩子年龄</td>
-                            <td></td>
-                            <td>孩子户口</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td width="25%">房产</td>
-                            <td colspan="3" width="75%">
-                                <el-radio v-model="houseProperty" label="1">有</el-radio>
-                                <el-radio v-model="houseProperty" label="2">无</el-radio>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>手机号</td>
-                            <td></td>
-                            <td>邮箱</td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </el-tab-pane>
-                <el-tab-pane label="教育背景" name="third">
-                    <table class="resumeTable" width="100%"  border="1" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td width="25%">学历</td>
-                            <td width="25%"></td>
-                            <td width="25%">毕业学院</td>
-                            <td width="25%"></td>
-                        </tr>
-                        <tr>
-                            <td>专业</td>
-                            <td></td>
-                            <td>就读时间</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td width="25%">是否统招</td>
-                            <td colspan="3" width="75%">
-                                <el-radio v-model="child" label="1">是</el-radio>
-                                <el-radio v-model="child" label="2">否</el-radio>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">获奖情况</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                    </table>
-                </el-tab-pane>
-                <el-tab-pane label="工作" name="fourth">
-                    <table class="resumeTable" width="100%"  border="1" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td colspan="4">基本信息</td>
-                        <tr>
-                            <td width="25%">公司名</td>
-                            <td width="25%"></td>
-                            <td width="25%">入职时间</td>
-                            <td width="25%"></td>
-                        </tr>
-                        <tr>
-                            <td>离职时间</td>
-                            <td></td>
-                            <td>职位方向</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>职位</td>
-                            <td></td>
-                            <td>工作内容</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>薪水</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                              工作能力
-                            </td>
-                        <tr>
-                            <td width="25%">搭建团队经验</td>
-                            <td colspan="3" width="75%">
-                                    
-                            </td>
-                        <tr>
-                            <td width="25%">团队规模</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">证书</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">工具</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                              工作业绩
-                            </td>
-                        <tr>
-                            <tr>
-                            <td width="25%">参与产品</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">参与周期</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="25%">重要性</td>
-                            <td colspan="3" width="75%">
-                                
-                            </td>
-                        </tr>
-                    </table>
-                </el-tab-pane>
-                <el-tab-pane label="期望" name="fifth">
-                    <table class="resumeTable" width="100%"  border="1" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td width="25%">薪水</td>
-                            <td width="25%"></td>
-                            <td width="25%">职位</td>
-                            <td width="25%"></td>
-                        </tr>
-                        <tr>
-                            <td>工作城市</td>
-                            <td></td>
-                            <td>离家距离</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>工作强度</td>
-                            <td></td>
-                            <td>公司类型</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>公司行业</td>
-                            <td></td>
-                            <td>公司规模</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>当前状态</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </el-tab-pane>
-            </el-tabs>-->
-            <el-form :label-position="labelPosition" label-width="120px">
+            <el-form :model="data" :label-position="labelPosition" label-width="120px">
                 <h3 class="formTitle">基本信息</h3>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="性别">
+                        <el-form-item label="性别：">
                             <el-radio-group v-model="ruleForm.resource">
                             <el-radio label="男"></el-radio>
                             <el-radio label="女"></el-radio>
@@ -315,24 +48,25 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="出生年月">
+                        <el-form-item label="出生年月：">
                             <el-date-picker
                             v-model="ruleForm.date"
-                            type="date"
+                            type="month"
                             placeholder="选择日期">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="出生地">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.resource" clearable>
-                            </el-input>
+                        <el-form-item label="出生地：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="性取向">
+                        <el-form-item label="性取向：">
                             <el-radio-group v-model="ruleForm.resource">
                             <el-radio label="正常"></el-radio>
                             <el-radio label="不正常"></el-radio>
@@ -340,72 +74,94 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="外形">
+                        <el-form-item label="外形：">
                            
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="气质">
+                        <el-form-item label="气质：">
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="体重">
+                        <el-form-item label="体重：">
                             
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="身高">
+                        <el-form-item label="身高：">
                            
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="特征">
+                        <el-form-item label="特征：">
                             
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="语速">
+                        <el-form-item label="语速：">
                             
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="思维">
+                        <el-form-item label="思维：">
                            
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="风格">
+                        <el-form-item label="风格：">
                             
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="24">
-                        <el-form-item label="语言">
-                            <el-input type="textarea" autosize placeholder="请输入内容"></el-input>
+                        <el-form-item label="语言：">
+                            <ul class="language">
+                                <li>英语   一般<i class="el-icon-close"></i></li>
+                                <li>英语   一般<i class="el-icon-close"></i></li>
+                            </ul>
+                            <div class="fl">
+                                <el-select v-model="value" placeholder="语言类型">
+                                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                                <el-select v-model="value" placeholder="熟练程度">
+                                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                                <el-button type="primary">添加语言</el-button>
+                            </div>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="手机">
-                            <el-input></el-input>
+                        <el-form-item
+                            prop="phone"
+                            label="手机"
+                            :rules="[{ required: true, message: '请输入手机号码', trigger: 'blur' },{ pattern:/^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur,change' }]">
+                            <el-input v-model="data.phone"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="邮箱">
-                            <el-input></el-input>
+                        <el-form-item
+                            prop="email"
+                            label="邮箱"
+                            :rules="[
+                            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+                            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+                            ]"
+                        >
+                            <el-input v-model="data.email"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <h3 class="formTitle">家庭情况</h3>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="婚姻">
+                        <el-form-item label="婚姻：">
                             <el-radio-group v-model="ruleForm.resource">
                                 <el-radio label="1">已婚</el-radio>
                                 <el-radio label="2">未婚</el-radio>
@@ -413,7 +169,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="房产">
+                        <el-form-item label="房产：">
                            <el-radio-group v-model="ruleForm.resource">
                                 <el-radio label="1">有</el-radio>
                                 <el-radio label="2">无</el-radio>
@@ -423,29 +179,35 @@
                 </el-row>
                 <el-row class="mt" v-if="1">
                     <el-col :span="8">
-                        <el-form-item label="对象城市">
+                        <el-form-item label="对象城市：">
                             <el-input></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="对象出生地">
-                           <el-input></el-input>
+                        <el-form-item label="对象出生地：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="对象工作公司">
-                            <el-input></el-input>
+                        <el-form-item label="对象工作公司：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt" v-if="1">
                     <el-col :span="8">
-                        <el-form-item label="对象工作职位">
-                            <el-input></el-input>
+                        <el-form-item label="对象工作职位：">
+                            <el-select v-model="value2" placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="孩子">
+                        <el-form-item label="孩子：">
                            <el-radio-group v-model="ruleForm.resource">
                                 <el-radio label="1">有</el-radio>
                                 <el-radio label="2">无</el-radio>
@@ -453,7 +215,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8" v-if="">
-                        <el-form-item label="孩子年龄">
+                        <el-form-item label="孩子年龄：">
                             <el-input></el-input>
                         </el-form-item>
                     </el-col>
@@ -466,21 +228,21 @@
                 <div class="education">
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="学历">
+                            <el-form-item label="学历：">
                                 <el-select v-model="value2" placeholder="请选择学历">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="毕业学校">
+                            <el-form-item label="毕业学校：">
                                 <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="专业">
+                            <el-form-item label="专业：">
                                 <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
@@ -488,13 +250,14 @@
                         </el-col>
                     </el-row>
                     <el-row class="mt">
-                        <el-col :span="8">
-                            <el-form-item label="就读时间">
-                                <el-date-picker v-model="value6" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                        <el-col :span="16">
+                            <el-form-item label="就读时间：">
+                                <el-date-picker v-model="value6" type="month" placeholder="开始日期"></el-date-picker><span>至</span>
+                                <el-date-picker v-model="value6" type="month" placeholder="结束日期"></el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="是否统招">
+                            <el-form-item label="是否统招：">
                             <el-radio-group v-model="ruleForm.resource">
                                 <el-radio label="是"></el-radio>
                                 <el-radio label="否"></el-radio>
@@ -503,9 +266,11 @@
                         </el-col>
                     </el-row>
                     <el-row class="mt">
-                        <el-col :span="24">
-                            <el-form-item label="获奖情况">
-                                <el-input type="textarea" autosize placeholder="请输入内容"></el-input>
+                        <el-col :span="8">
+                            <el-form-item label="获奖情况：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -519,92 +284,109 @@
                 <div class="job">
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="公司名">
+                            <el-form-item label="公司名：">
                                 <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入关键词" :remote-method="remoteMethod">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="入职时间">
-                                <el-date-picker v-model="ruleForm.date" type="date" placeholder="选择日期"></el-date-picker>
+                            <el-form-item label="入职时间：">
+                                <el-date-picker v-model="ruleForm.date" type="month" placeholder="选择日期"></el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="离职时间">
-                                <el-date-picker v-model="ruleForm.date" type="date" placeholder="选择日期"></el-date-picker>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row class="mt">
-                        <el-col :span="8">
-                            <el-form-item label="职位方向">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="8">
-                            <el-form-item label="职位">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="8">
-                            <el-form-item label="工作城市">
-                                <el-input></el-input>
+                            <el-form-item label="离职时间：">
+                                <el-date-picker v-model="ruleForm.date" type="month" placeholder="选择日期"></el-date-picker>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="薪水">
+                            <el-form-item label="职位方向：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="职位：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="工作城市：">
+                                <el-input></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row class="mt">
+                        <el-col :span="8">
+                            <el-form-item label="薪水：">
                                 <el-input></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="24">
-                            <el-form-item label="工作内容">
+                            <el-form-item label="工作内容：">
                                 <el-input type="textarea" autosize placeholder="请输入内容"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="搭建团队经验">
-                                <el-input></el-input>
+                            <el-form-item label="搭建团队经验：">
+                                <el-radio-group v-model="ruleForm.resource">
+                                    <el-radio label="有"></el-radio>
+                                    <el-radio label="无"></el-radio>
+                                </el-radio-group>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="团队规模">
-                                <el-input></el-input>
+                            <el-form-item label="团队规模：">
+                                <el-input ></el-input><span>人</span>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="证书">
-                                <el-input></el-input>
+                            <el-form-item label="证书：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="工具">
-                                <el-input></el-input>
+                            <el-form-item label="工具：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="参与产品">
-                                <el-input></el-input>
+                            <el-form-item label="参与产品：">
+                                <el-select v-model="value2" filterable placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="参与周期">
-                                <el-input></el-input>
+                            <el-form-item label="参与周期：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="重要性">
-                                <el-input></el-input>
+                            <el-form-item label="重要性：">
+                                <el-select v-model="value2" placeholder="请选择学历">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -612,52 +394,68 @@
                 <h3 class="formTitle">期望</h3>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="薪水">
-                            <el-input></el-input>
+                        <el-form-item label="薪水：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="职位">
-                            <el-input></el-input>
+                        <el-form-item label="职位：">
+                            <el-select v-model="value11" multiple placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="工作城市">
-                            <el-input></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row class="mt">
-                    <el-col :span="8">
-                        <el-form-item label="离家距离">
-                            <el-input></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="工作强度">
-                            <el-input></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="公司类型">
-                            <el-input></el-input>
+                        <el-form-item label="工作城市：">
+                            <el-select v-model="value11" multiple placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="公司行业">
+                        <el-form-item label="离家距离：">
                             <el-input></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="公司规模">
-                            <el-input></el-input>
+                        <el-form-item label="工作强度：">
+                            <el-select v-model="value2" placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="当前状态">
-                            <el-input></el-input>
+                        <el-form-item label="公司类型：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row class="mt">
+                    <el-col :span="8">
+                        <el-form-item label="公司行业：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="公司规模：">
+                            <el-select v-model="value2" filterable placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="当前状态：">
+                            <el-select v-model="value2" placeholder="请选择学历">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -673,6 +471,13 @@
   export default {
     data() {
       return {
+        data:{
+            email:"",
+            phone:""
+        },
+        //简历附件
+        uploadShow:true,
+        fileList:[],
         options: [{
           value: '选项1',
           label: '不通过'
@@ -684,6 +489,7 @@
           label: '精英会员'
         }],
         value:"",
+        value3:"",
         activeName:"first",
         marriage: '',
         child: '',
@@ -706,6 +512,7 @@
           label: '北京烤鸭'
         }],
         value2: '',
+        value11:[],
         //毕业学员
         options4:[],
         value9:"",
@@ -720,12 +527,53 @@
       }
     },
     created: function () {
-        // `this` 指向 vm 实例
+        this.uploadFile()
+        
+    },
+    watch:{
         
     },
     methods: {
-      rowClick(row){
-
+      //简历上传
+      uploadFile(){
+        
+      },
+      //上传成功
+      handleSuccess(response, file, fileList){
+        this.fileList.push({"name":file.name,"url":file.url})
+      },
+      //文件列表移除文件时的钩子
+      handleRemove(file, fileList) {
+        this.fileList=[]
+        // console.log(file, fileList);
+      },
+      //点击已上传的文件链接时的钩子, 可以通过 file.response 拿到服务端返回数据
+      handlePreview(file) {
+        // console.log(file);
+      },
+      //文件上传失败时的钩子
+      handleExceed(files, fileList) {
+        this.$message.warning(`当前限制选择 1 个文件`);
+      },
+      //删除文件之前
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      //上传文件之前
+      beforeAvatarUpload (file) {
+        // console.log(file)
+        // const extension = file.name.split('.')[1] === 'xls'
+        // const extension2 = file.name.split('.')[1] === 'xlsx'
+        // const extension3 = file.name.split('.')[1] === 'doc'
+        // const extension4 = file.name.split('.')[1] === 'docx'
+        const isLt2M = file.size / 1024 / 1024 < 10
+        // if (!extension && !extension2 && !extension3 && !extension4) {
+        //     console.log('上传模板只能是 xls、xlsx、doc、docx 格式!')
+        // }
+        if (!isLt2M) {
+            console.log('上传文件大小不能超过 10MB!')
+        }
+        return isLt2M
       },
       remoteMethod(){
           //毕业学员和专业 
@@ -774,10 +622,27 @@
   .mt{
       margin-top: 10px;
   }
+  .fl{
+      float: left;
+  }
+  .el-upload__tip{
+      display: inline-block;
+      margin-left: 10px;
+  }
   .fr{
     float:right;
   }
+  .language{
+      text-align: left;
+  }
+  .language li{
+      display: inline-block;
+      margin-right: 50px;
+  }
   .modification{
       margin-bottom: 60px;
+  }
+  .el-icon-close{
+      cursor: pointer;
   }
 </style>
