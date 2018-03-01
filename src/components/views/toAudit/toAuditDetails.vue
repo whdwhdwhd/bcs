@@ -49,22 +49,19 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生年月：">
-                            <el-date-picker
-                            v-model="ruleForm.date"
-                            type="month"
-                            placeholder="选择日期">
-                            </el-date-picker>
+                            <el-cascader
+                            :options="options5"
+                            v-model="time"
+                            ></el-cascader>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生地：">
-                            <el-select v-model="value2" filterable placeholder="请选择出生地">
-                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
+                            <el-cascader :options="option3" change-on-select></el-cascader>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row class="mt">
+                <!--<el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="性取向：">
                             <el-radio-group v-model="ruleForm.resource">
@@ -116,22 +113,21 @@
                             
                         </el-form-item>
                     </el-col>
-                </el-row>
+                </el-row>-->
                 <el-row class="mt">
                     <el-col :span="24">
                         <el-form-item label="语言：">
                             <ul class="language">
-                                <li>英语   一般<i class="el-icon-close"></i></li>
-                                <li>英语   一般<i class="el-icon-close"></i></li>
+                                <li v-for="lang in languages">{{lang.value1}}    {{lang.value2}}<i class="el-icon-close"></i></li>
                             </ul>
                             <div class="fl">
-                                <el-select v-model="value" placeholder="语言类型">
+                                <el-select v-model="language.value1" placeholder="语言类型">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
-                                <el-select v-model="value" placeholder="熟练程度">
+                                <el-select v-model="language.value2" placeholder="熟练程度">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
-                                <el-button type="primary">添加语言</el-button>
+                                <el-button type="primary" @click="addLanguage">添加语言</el-button>
                             </div>
                         </el-form-item>
                     </el-col>
@@ -176,7 +172,9 @@
                 <el-row class="mt" v-if="1">
                     <el-col :span="8">
                         <el-form-item label="对象城市：">
-                            <el-input></el-input>
+                            <el-select v-model="value2" filterable placeholder="请选择对象城市">
+                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
@@ -212,7 +210,7 @@
                     </el-col>
                     <el-col :span="8" v-if="">
                         <el-form-item label="孩子年龄：">
-                            <el-input></el-input>
+                            <el-input class="aut"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -248,8 +246,8 @@
                     <el-row class="mt">
                         <el-col :span="16">
                             <el-form-item label="就读时间：">
-                                <el-date-picker v-model="value6" type="month" placeholder="开始日期"></el-date-picker><span>至</span>
-                                <el-date-picker v-model="value6" type="month" placeholder="结束日期"></el-date-picker>
+                                <el-cascader :options="options5" v-model="time"></el-cascader><span>至</span>
+                                <el-cascader :options="options5" v-model="time"></el-cascader>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
@@ -288,12 +286,28 @@
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="入职时间：">
-                                <el-date-picker v-model="ruleForm.date" type="month" placeholder="选择日期"></el-date-picker>
+                                <el-cascader :options="options5" v-model="time"></el-cascader>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="离职时间：">
-                                <el-date-picker v-model="ruleForm.date" type="month" placeholder="选择日期"></el-date-picker>
+                                <el-cascader :options="options5" v-model="time"></el-cascader>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row class="mt">
+                        <el-col :span="8">
+                            <el-form-item label="职位：">
+                                <el-select v-model="value2" placeholder="请选择职位">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="8">
+                            <el-form-item label="工作城市：">
+                                <el-select v-model="value2" filterable placeholder="请选择工作城市">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -306,22 +320,24 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="职位：">
-                                <el-select v-model="value2" placeholder="请选择职位">
+                            <el-form-item label="证书：">
+                                <el-select v-model="value2" placeholder="请选择证书">
                                     <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="工作城市：">
-                                <el-input></el-input>
+                            <el-form-item label="工具：">
+                                <el-select v-model="value2" placeholder="请选择工具">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="薪水：">
-                                <el-input></el-input>
+                            <el-form-item label="薪水（万元）：">
+                                <el-input class="aut"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -336,32 +352,17 @@
                         <el-col :span="8">
                             <el-form-item label="搭建团队经验：">
                                 <el-radio-group v-model="ruleForm.resource">
-                                    <el-radio label="有"></el-radio>
-                                    <el-radio label="无"></el-radio>
+                                    <el-radio label="1">有</el-radio>
+                                    <el-radio label="0">无</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="8">
+                        <el-col :span="8" v-if="ruleForm.resource==='1'">
                             <el-form-item label="团队规模：">
                                 <el-input class="aut"></el-input><span>人</span>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="8">
-                            <el-form-item label="证书：">
-                                <el-select v-model="value2" placeholder="请选择证书">
-                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row class="mt">
-                        <el-col :span="8">
-                            <el-form-item label="工具：">
-                                <el-select v-model="value2" placeholder="请选择工具">
-                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
+                        
                     </el-row>
                     <el-row class="mt">
                         <el-col :span="8">
@@ -390,10 +391,8 @@
                 <h3 class="formTitle">期望</h3>
                 <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="薪水：">
-                            <el-select v-model="value2" filterable placeholder="请选择薪水">
-                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
+                        <el-form-item label="薪水（万元）：">
+                            <span>不低于</span><el-input class="aut"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
@@ -414,7 +413,7 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="离家距离：">
-                            <el-input></el-input>
+                            <el-input class="aut"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
@@ -473,6 +472,11 @@
         },
         //简历附件
         uploadShow:true,
+        language:{
+            value1:"",
+            value2:""
+        },
+        languages:[],
         fileList:[],
         options: [{
           value: '选项1',
@@ -514,22 +518,247 @@
         value9:"",
         //毕业时间
         value6:"",
-
+        options5: [],
+        time:[],
         labelPosition:"right",
         ruleForm:{
             resource:"",
             date:""
+        },
+        option3: [{
+            value: 'zhinan',
+            label: '指南',
+            children: [{
+                value: 'shejiyuanze',
+                label: '设计原则',
+                children: [{
+                value: 'yizhi',
+                label: '一致'
+                }, {
+                value: 'fankui',
+                label: '反馈'
+                }, {
+                value: 'xiaolv',
+                label: '效率'
+                }, {
+                value: 'kekong',
+                label: '可控'
+                }]
+            }, {
+                value: 'daohang',
+                label: '导航',
+                children: [{
+                value: 'cexiangdaohang',
+                label: '侧向导航'
+                }, {
+                value: 'dingbudaohang',
+                label: '顶部导航'
+                }]
+            }]
+            }, {
+            value: 'zujian',
+            label: '组件',
+            children: [{
+                value: 'basic',
+                label: 'Basic',
+                children: [{
+                value: 'layout',
+                label: 'Layout 布局'
+                }, {
+                value: 'color',
+                label: 'Color 色彩'
+                }, {
+                value: 'typography',
+                label: 'Typography 字体'
+                }, {
+                value: 'icon',
+                label: 'Icon 图标'
+                }, {
+                value: 'button',
+                label: 'Button 按钮'
+                }]
+            }, {
+                value: 'form',
+                label: 'Form',
+                children: [{
+                value: 'radio',
+                label: 'Radio 单选框'
+                }, {
+                value: 'checkbox',
+                label: 'Checkbox 多选框'
+                }, {
+                value: 'input',
+                label: 'Input 输入框'
+                }, {
+                value: 'input-number',
+                label: 'InputNumber 计数器'
+                }, {
+                value: 'select',
+                label: 'Select 选择器'
+                }, {
+                value: 'cascader',
+                label: 'Cascader 级联选择器'
+                }, {
+                value: 'switch',
+                label: 'Switch 开关'
+                }, {
+                value: 'slider',
+                label: 'Slider 滑块'
+                }, {
+                value: 'time-picker',
+                label: 'TimePicker 时间选择器'
+                }, {
+                value: 'date-picker',
+                label: 'DatePicker 日期选择器'
+                }, {
+                value: 'datetime-picker',
+                label: 'DateTimePicker 日期时间选择器'
+                }, {
+                value: 'upload',
+                label: 'Upload 上传'
+                }, {
+                value: 'rate',
+                label: 'Rate 评分'
+                }, {
+                value: 'form',
+                label: 'Form 表单'
+                }]
+            }, {
+                value: 'data',
+                label: 'Data',
+                children: [{
+                value: 'table',
+                label: 'Table 表格'
+                }, {
+                value: 'tag',
+                label: 'Tag 标签'
+                }, {
+                value: 'progress',
+                label: 'Progress 进度条'
+                }, {
+                value: 'tree',
+                label: 'Tree 树形控件'
+                }, {
+                value: 'pagination',
+                label: 'Pagination 分页'
+                }, {
+                value: 'badge',
+                label: 'Badge 标记'
+                }]
+            }, {
+                value: 'notice',
+                label: 'Notice',
+                children: [{
+                value: 'alert',
+                label: 'Alert 警告'
+                }, {
+                value: 'loading',
+                label: 'Loading 加载'
+                }, {
+                value: 'message',
+                label: 'Message 消息提示'
+                }, {
+                value: 'message-box',
+                label: 'MessageBox 弹框'
+                }, {
+                value: 'notification',
+                label: 'Notification 通知'
+                }]
+            }, {
+                value: 'navigation',
+                label: 'Navigation',
+                children: [{
+                value: 'menu',
+                label: 'NavMenu 导航菜单'
+                }, {
+                value: 'tabs',
+                label: 'Tabs 标签页'
+                }, {
+                value: 'breadcrumb',
+                label: 'Breadcrumb 面包屑'
+                }, {
+                value: 'dropdown',
+                label: 'Dropdown 下拉菜单'
+                }, {
+                value: 'steps',
+                label: 'Steps 步骤条'
+                }]
+            }, {
+                value: 'others',
+                label: 'Others',
+                children: [{
+                value: 'dialog',
+                label: 'Dialog 对话框'
+                }, {
+                value: 'tooltip',
+                label: 'Tooltip 文字提示'
+                }, {
+                value: 'popover',
+                label: 'Popover 弹出框'
+                }, {
+                value: 'card',
+                label: 'Card 卡片'
+                }, {
+                value: 'carousel',
+                label: 'Carousel 走马灯'
+                }, {
+                value: 'collapse',
+                label: 'Collapse 折叠面板'
+                }]
+            }]
+            }, {
+            value: 'ziyuan',
+            label: '资源',
+            children: [{
+                value: 'axure',
+                label: 'Axure Components'
+            }, {
+                value: 'sketch',
+                label: 'Sketch Templates'
+            }, {
+                value: 'jiaohu',
+                label: '组件交互文档'
+            }]
+            }]
         }
-      }
     },
     created: function () {
-        this.uploadFile()
-        
+        this.uploadFile();
+        this.handleItemChange();
     },
     watch:{
         
     },
     methods: {
+      // 时间
+      handleItemChange() {
+        var time=new Date();
+        var newYear=time.getFullYear();
+        for (var i = newYear; i > newYear-60; i--) {
+            this.options5.push({value:i,label: i+'年',children: [{value:"1",label:"1月"},{value:"2",label:"2月"},{value:"3",label:"3月"},{value:"4",label:"4月"},{value:"5",label:"5月"},{value:"6",label:"6月"},{value:"7",label:"7月"},{value:"8",label:"8月"},{value:"9",label:"9月"},{value:"10",label:"10月"},{value:"11",label:"11月"},{value:"12",label:"12月"}]})
+        }
+      },
+      //添加语言
+      addLanguage(){
+        if (this.language.value1==="") {
+            this.$message({
+                showClose: true,
+                message: '请选择语言类型',
+                type: 'warning'
+            });
+            return false;
+        }else if(this.language.value2===""){
+            this.$message({
+                showClose: true,
+                message: '请选择熟练程度',
+                type: 'warning'
+            });
+            return false;
+        }
+        this.languages.push(this.language)
+        this.language.value1=""
+        this.language.value2=""
+      },
       //简历上传
       uploadFile(){
         
@@ -625,6 +854,7 @@
   .el-upload__tip{
       display: inline-block;
       margin-left: 10px;
+      margin-top: 0px;
   }
   .fr{
     float:right;
