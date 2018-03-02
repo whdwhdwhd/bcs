@@ -189,7 +189,7 @@ import axios from 'axios';
 
 
 
-        this.$http.get(totalPort.postAuditPort()+'?checkSts='+checkSts+'&curPage='+this.currentPage+'&cntPerPage='+this.cntPerPage).then((data) => {
+        this.$http.get(totalPort.getCheckList()+'?checkSts='+checkSts+'&curPage='+this.currentPage+'&cntPerPage='+this.cntPerPage).then((data) => {
           if (data.code==0) {
             this.total=data.data.page.totalPage*data.data.page.cntPerPage;
             this.postToAudit=data.data.dataList;

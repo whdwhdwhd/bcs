@@ -4,7 +4,7 @@
     <div class="toAuditDetailsMain">
         <el-row type="flex" class="row-bg zCenter" justify="space-between">
             <el-col>
-                姓名：<span></span>
+                姓名：<span>{{cddInfoData.name}}</span>
             </el-col>
             <el-col>
                 <span class="fl">简历附件：</span>
@@ -36,12 +36,12 @@
         </el-row>
         <div class="bottomBorder">详细简历</div>
         <div class="resume">
-            <el-form :model="data" :label-position="labelPosition" label-width="120px">
+            <el-form :model="cddInfoData" :label-position="labelPosition" label-width="120px">
                 <h3 class="formTitle">基本信息</h3>
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="性别：">
-                            <el-radio-group v-model="ruleForm.resource">
+                            <el-radio-group v-model="cddInfoData.sex">
                             <el-radio label="男"></el-radio>
                             <el-radio label="女"></el-radio>
                             </el-radio-group>
@@ -49,15 +49,17 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生年月：">
-                            <el-cascader
+                            <!--<el-cascader
                             :options="options5"
                             v-model="time"
-                            ></el-cascader>
+                            ></el-cascader>-->
+                            <!--时间组件-->
+                            <sel-time :name="'birthDay'" :times="cddInfoData.birthDay" @selT="setTime"></sel-time>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生地：">
-                            <el-cascader :options="option3" change-on-select></el-cascader>
+                            <el-cascader :options="option3" change-on-select v-model="cddInfoData.birthPlace"></el-cascader>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -135,18 +137,30 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item
-                            prop="phone"
+                            prop="mobile"
                             label="手机"
                             :rules="[{ pattern:/^1[34578]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur,change' }]">
-                            <el-input v-model="data.phone"></el-input>
+                            <el-input v-model="cddInfoData.mobile"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item
-                            prop="email"
+                            prop="Email"
                             label="邮箱"
                             :rules="[{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }]">
-                            <el-input v-model="data.email"></el-input>
+                            <el-input v-model="cddInfoData.Email"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row class="mt">
+                    <el-col :span="8">
+                        <el-form-item label="QQ">
+                            <el-input v-model="cddInfoData.qq"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="微信">
+                            <el-input v-model="cddInfoData.weixin"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -463,9 +477,15 @@
 </template>
 <script>
   import goBack from '@/components/goBack';
+  import selTime from '@/components/commonComponents/time';
   export default {
     data() {
       return {
+        cddInfoData:{},
+        languages:[],
+
+
+
         data:{
             email:"",
             phone:""
@@ -476,7 +496,6 @@
             value1:"",
             value2:""
         },
-        languages:[],
         fileList:[],
         options: [{
           value: '选项1',
@@ -730,11 +749,44 @@
         
     },
     methods: {
+      // 获取详细信息
+      getCddInfo(){
+          var _this=this;
+          console.log(this.$route.query.id) 
+          this.$http.get(totalPort.getCddInfo()+'?cddId=1').then((data) => {
+              console.log(data)
+            if (data.code==0) {
+                this.cddInfoData=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+            this.getLanguageInfoById()
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //获取语言
+      getLanguageInfoById(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.getLanguageInfoById()+'?lanId=1').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
       // 时间
+      setTime(keys,val){
+        this[keys]=val;
+      },
       handleItemChange() {
         var time=new Date();
         var newYear=time.getFullYear();
-        for (var i = newYear; i > newYear-60; i--) {
+        for (var i = newYear; i >= newYear-60; i--) {
             this.options5.push({value:i,label: i+'年',children: [{value:"1",label:"1月"},{value:"2",label:"2月"},{value:"3",label:"3月"},{value:"4",label:"4月"},{value:"5",label:"5月"},{value:"6",label:"6月"},{value:"7",label:"7月"},{value:"8",label:"8月"},{value:"9",label:"9月"},{value:"10",label:"10月"},{value:"11",label:"11月"},{value:"12",label:"12月"}]})
         }
       },
@@ -822,7 +874,8 @@
       }
     },
     components: {
-        "v-goBack":goBack
+        "v-goBack":goBack,
+        "sel-time":selTime
     }
   };
 </script>

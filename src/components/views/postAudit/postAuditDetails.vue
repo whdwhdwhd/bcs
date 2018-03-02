@@ -187,6 +187,7 @@
             </el-col>
         </el-row>
     </el-form>
+    <el-button class="modification" type="primary" >修改</el-button>
   </div>
 </template>
 <script>
@@ -217,7 +218,7 @@ import goBack from '@/components/goBack';
       requestList(){
           var _this=this;
           console.log(this.$route.query.id) 
-          this.$http.get(totalPort.postAuditDetailsPort()+'?posId='+this.$route.query.id+'&infoFlag=7').then((data) => {
+          this.$http.get(totalPort.getPosInfo()+'?posId='+this.$route.query.id+'&infoFlag=7').then((data) => {
           if (data.code==0) {
             this.posInfo=data.data.posInfo;
           }else{
@@ -242,7 +243,7 @@ import goBack from '@/components/goBack';
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            _this.$http.post(totalPort.postAuditSubPort(),{
+            _this.$http.post(totalPort.subCheck(),{
                 "posId": "1",
                 "checkSts": "1",//状态
                 "comment": ""  //备注，例如：审核拒绝理由
@@ -300,5 +301,8 @@ import goBack from '@/components/goBack';
   }
   .el-form-item{
       margin-bottom: 0px;
+  }
+  .modification{
+      margin-bottom: 60px;
   }
 </style>
