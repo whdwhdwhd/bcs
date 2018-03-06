@@ -129,7 +129,7 @@
                                 <el-select v-model="language.value2" placeholder="熟练程度">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
-                                <el-button type="primary" @click="addLanguage">添加语言</el-button>
+                                <el-button type="primary">添加语言</el-button>
                             </div>
                         </el-form-item>
                     </el-col>
@@ -742,6 +742,7 @@
         }
     },
     created: function () {
+        this.getCddInfo();
         this.uploadFile();
         this.handleItemChange();
     },
@@ -752,11 +753,9 @@
       // 获取详细信息
       getCddInfo(){
           var _this=this;
-          console.log(this.$route.query.id) 
-          this.$http.get(totalPort.getCddInfo()+'?cddId=1').then((data) => {
-              console.log(data)
+          this.$http.get(totalPort.getCddInfo()+'?cddId=1'+'&infoFlag=73300775185').then((data) => {
             if (data.code==0) {
-                this.cddInfoData=data.data.posInfo;
+                this.cddInfoData=data.data;
             }else{
                 console.log("报错")
             }
@@ -765,10 +764,11 @@
             _this.$message.error('请求数据失败，请刷新页面！');
         });
       },
+
+// *****************************语言**************************************
       //获取语言
       getLanguageInfoById(){
         var _this=this;
-        console.log(this.$route.query.id) 
         this.$http.get(totalPort.getLanguageInfoById()+'?lanId=1').then((data) => {
             if (data.code==0) {
                 this.languages=data.data.posInfo;
@@ -779,6 +779,201 @@
             _this.$message.error('请求数据失败，请刷新页面！');
         });
       },
+      //删除某个语言
+      deleteLanguageInfo(){
+        var _this=this;
+        this.$http.get(totalPort.deleteLanguageInfo()+'?lanId=1').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //更新某个语言
+      updateLanguageInfoById(){
+        var _this=this;
+        this.$http.get(totalPort.updateLanguageInfoById()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //添加某个语言
+      addLanguageInfo(){
+        var _this=this;
+        this.$http.get(totalPort.addLanguageInfo()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+// *****************************孩子**************************************
+      //获取某个孩子信息
+      getChildInfoById(){
+        var _this=this;
+        this.$http.get(totalPort.getChildInfoById()+'?childId=1').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //删除某个孩子
+      deleteChildInfo(){
+        var _this=this;
+        this.$http.get(totalPort.deleteChildInfo()+'?childId=1').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //更新某个孩子
+      updateChildInfoById(){
+        var _this=this;
+        this.$http.get(totalPort.updateChildInfoById()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //添加某个孩子信息
+      addChildInfo(){
+        var _this=this;
+        this.$http.get(totalPort.addChildInfo()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+// *****************************工作经历**************************************
+      //删除某段工作经历
+      deleteWorkExp(){
+        var _this=this;
+        this.$http.get(totalPort.deleteWorkExp()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //更新某段工作经历
+      updateWorkExp(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.updateWorkExp()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //添加某段工作经历或经历中的某些信息
+      addWorkExp(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.addWorkExp()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+// *****************************教育经历**************************************
+      //获取某段教育经历
+      getEduExpById(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.getEduExpById()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //添加某段教育经历
+      addEduExp(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.addEduExp()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //删除某段教育经历
+      deleteEduExp(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.deleteEduExp()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //更新某段教育经历
+      updateEduExp(){
+        var _this=this;
+        console.log(this.$route.query.id) 
+        this.$http.get(totalPort.updateEduExp()+'参数').then((data) => {
+            if (data.code==0) {
+                this.languages=data.data.posInfo;
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+//**********************************************************************
+//**********************************************************************
+
+
       // 时间
       setTime(keys,val){
         this[keys]=val;
@@ -790,27 +985,7 @@
             this.options5.push({value:i,label: i+'年',children: [{value:"1",label:"1月"},{value:"2",label:"2月"},{value:"3",label:"3月"},{value:"4",label:"4月"},{value:"5",label:"5月"},{value:"6",label:"6月"},{value:"7",label:"7月"},{value:"8",label:"8月"},{value:"9",label:"9月"},{value:"10",label:"10月"},{value:"11",label:"11月"},{value:"12",label:"12月"}]})
         }
       },
-      //添加语言
-      addLanguage(){
-        if (this.language.value1==="") {
-            this.$message({
-                showClose: true,
-                message: '请选择语言类型',
-                type: 'warning'
-            });
-            return false;
-        }else if(this.language.value2===""){
-            this.$message({
-                showClose: true,
-                message: '请选择熟练程度',
-                type: 'warning'
-            });
-            return false;
-        }
-        this.languages.push(this.language)
-        this.language.value1=""
-        this.language.value2=""
-      },
+
       //简历上传
       uploadFile(){
         

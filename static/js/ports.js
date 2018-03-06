@@ -1,8 +1,8 @@
 var totalPort={
     port:"http://19811k2o66.51mypc.cn/ojee-bg-web",  //端口1
     //职位列表请求
-    // getCheckList:function(){return this.port+"/position/list/getCheckList.htm"},
-    getCheckList:function(){return "/api/ojee-bg-web/position/list/getCheckList.htm"},
+    getCheckList:function(){return this.port+"/position/list/getCheckList.htm"},
+    // getCheckList:function(){return "/api/ojee-bg-web/position/list/getCheckList.htm"},
     //职位详情
     getPosInfo:function(){return this.port+"/position/info/getPosInfo.htm"},
     // getPosInfo:function(){return "/api/position/info/getPosInfo.htm"},

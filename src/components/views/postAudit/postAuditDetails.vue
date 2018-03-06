@@ -3,7 +3,7 @@
     <v-goBack></v-goBack>
     <el-row type="flex" class="row-bg zCenter" justify="space-between">
         <el-col class="lh">
-            职位：<span></span>
+            职位：<span>{{posInfo.posName}}</span>
         </el-col>
         <el-col>
             审核：
@@ -24,7 +24,7 @@
     type="textarea"
     :autosize="{ minRows: 2, maxRows: 4}"
     placeholder="请输入不通过原因"
-    v-model="textarea">
+    v-model="comment">
     </el-input>
     <el-form label-position="right" label-width="150px">
     <h3 class="formTitle">职位简介</h3>
@@ -111,7 +111,7 @@
         <el-row class="mt">
             <el-col :span="24">
                 <el-form-item label="职位简介:">
-                    <span>{{posInfo.jd}}</span>
+                    <el-input type="textarea" disabled v-model="posInfo.jd" autosize placeholder="请输入工作内容"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -198,15 +198,19 @@ import goBack from '@/components/goBack';
         options: [
             {
                 value: '1',
-                label: '通过'
+                label: '请选择'
             },
             {
                 value: '2',
+                label: '通过'
+            },
+            {
+                value: '3',
                 label: '不通过'
             }
         ],
         value:"",
-        textarea:"",
+        comment:"",
         posInfo:{}
       };
     },
@@ -217,10 +221,10 @@ import goBack from '@/components/goBack';
       //请求职位详情
       requestList(){
           var _this=this;
-          console.log(this.$route.query.id) 
           this.$http.get(totalPort.getPosInfo()+'?posId='+this.$route.query.id+'&infoFlag=7').then((data) => {
-          if (data.code==0) {
-            this.posInfo=data.data.posInfo;
+          if (data.data.code==0) {
+            this.posInfo=data.data.data.posInfo;
+            this.value=this.posInfo.checkStatus.toString()
           }else{
             console.log("报错")
           }
@@ -243,17 +247,28 @@ import goBack from '@/components/goBack';
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            _this.$http.post(totalPort.subCheck(),{
-                "posId": "1",
-                "checkSts": "1",//状态
-                "comment": ""  //备注，例如：审核拒绝理由
-            })
-            .then(function(res){
+            if (this.value==="2") {     //审核通过
+                this.comment=""
+            }else if(this.value==="3") {   //审核不通过
                 _this.$message({
                     showClose: true,
-                    type: 'success',
-                    message: '提交成功!'
+                    message: '请填写审核不通过原因',
+                    type: 'warning'
                 });
+                return false;
+            };
+            _this.$http.get(totalPort.subCheck()+"?posId="+this.posInfo.id+"&checkSts="+this.value+"&comment="+this.comment)
+            .then(function(res){
+                console.log(res)
+                if (res.data.code==0) {
+                    _this.$message({
+                        showClose: true,
+                        type: 'success',
+                        message: '提交成功!'
+                    });
+                }else{
+                    console.log("报错")
+                }
             })
             .catch(function(err){
                 _this.$message.error('提交失败');
@@ -263,7 +278,7 @@ import goBack from '@/components/goBack';
           _this.$message({
             showClose: true,
             type: 'info',
-            message: '已取消删除'
+            message: '取消提交'
           });          
         });
       }

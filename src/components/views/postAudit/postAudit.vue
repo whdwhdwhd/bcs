@@ -32,7 +32,7 @@
           :page-sizes="[10, 20, 50, 100]"
           :page-size="cntPerPage"
           layout="sizes, prev, pager, next"
-          :total="1000">
+          :total="total">
         </el-pagination>
       </el-tab-pane>
       <el-tab-pane label="通过">
@@ -66,7 +66,7 @@
           :page-sizes="[10, 20, 50, 100]"
           :page-size="cntPerPage"
           layout="sizes, prev, pager, next"
-          :total="1000">
+          :total="total">
         </el-pagination>
       </el-tab-pane>
       <el-tab-pane label="不通过">
@@ -100,7 +100,7 @@
           :page-sizes="[10, 20, 50, 100]"
           :page-size="cntPerPage"
           layout="sizes, prev, pager, next"
-          :total="1000">
+          :total="total">
         </el-pagination>
       </el-tab-pane>
     </el-tabs>
@@ -116,83 +116,27 @@ import axios from 'axios';
         currentPage: 1,
         cntPerPage: 10,
         total: 100,
-        postToAudit: [
-          {
-	            "id": "1",   //通过positionId获取详情
-	            "posName":"工程师",
-	            "cltName":"百度",
-	            "requesterName":"Offer分析",  //职位详情
-	        }
-        ],
-        passData: [
-          {
-	            "id": "1",   //通过positionId获取详情
-	            "posName":"工程师",
-	            "cltName":"百度",
-	            "requesterName":"Offer分析",  //职位详情
-	        }
-        ],
-        noPassData: [
-          {
-	            "id": "1",   //通过positionId获取详情
-	            "posName":"工程师",
-	            "cltName":"百度",
-	            "requesterName":"Offer分析",  //职位详情
-	        }
-        ]
+        postToAudit: [],
+        passData: [],
+        noPassData: []
       };
     },
     created () {
       this.requestList(this.checkSts)
     },
     methods: {
-      
-
-
-
-
       requestList(checkSts){
-        // function success(text) {
-        //     var textarea = document.getElementById('test-response-text');
-        // }
-
-        // function fail(code) {
-        //     var textarea = document.getElementById('test-response-text');
-        // }
-        // //请求列表
-        // var request = new XMLHttpRequest(); // 新建XMLHttpRequest对象
-
-        // request.onreadystatechange = function () { // 状态发生变化时，函数被回调
-        //     if (request.readyState === 4) { // 成功完成
-        //         // 判断响应结果:
-        //         if (request.status === 200) {
-        //             console.log(request.responseText)
-        //             // 成功，通过responseText拿到响应的文本:
-        //             return success(request.responseText);
-        //         } else {
-        //           console.log(request.status)
-        //             // 失败，根据响应码判断失败原因:
-        //             return fail(request.status);
-        //         }
-        //     } else {
-        //         // HTTP请求还在继续...
-        //     }
-        // }
-
-
-        // // 发送请求:
-        // request.open('GET', '/api/position/list/getCheckList.htm?checkSts=1&curPage=1&cntPerPage=10');
-        // request.setRequestHeader("Content-type","application/json;charset=utf-8");
-        // request.send();
-
-        
-
-
-
-        this.$http.get(totalPort.getCheckList()+'?checkSts='+checkSts+'&curPage='+this.currentPage+'&cntPerPage='+this.cntPerPage).then((data) => {
-          if (data.code==0) {
-            this.total=data.data.page.totalPage*data.data.page.cntPerPage;
-            this.postToAudit=data.data.dataList;
+        this.$http.get(totalPort.getCheckList()+'?checkSts='+checkSts+'&curPage='+this.currentPage+'&cntPerPage='+this.cntPerPage+'&infoFlag=147459').then((data) => {
+          console.log(data)
+          if (data.data.code==0) {
+            this.total=data.data.data.page.totalPage*data.data.data.page.cntPerPage;
+            if (checkSts===1) {
+              this.postToAudit=data.data.data.dataList;
+            } else if(checkSts===2) {
+              this.passData=data.data.data.dataList;
+            } else if(checkSts===3) {
+              this.noPassData=data.data.data.dataList;
+            }
           }else{
             console.log("报错")
           }
