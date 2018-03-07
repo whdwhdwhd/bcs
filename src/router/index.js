@@ -12,6 +12,7 @@ import PostAudit from '@/components/views/postAudit/postAudit';
 import PostAuditDetails from '@/components/views/postAudit/postAuditDetails';
 import Post from '@/components/views/post/post';
 import PostDetails from '@/components/views/post/postDetails';
+import DataManagement from '@/components/views/dataManagement';
 
 Vue.use(Router)
 
@@ -32,7 +33,8 @@ export default new Router({
           {path: 'postAudit', component: PostAudit, name: '职位审核',jurisdiction:"1"},
           {path: 'postAuditDetails', component: PostAuditDetails},
           {path: 'post', component: Post, name: '职位列表',jurisdiction:"2"},
-          {path: 'postDetails', component: PostDetails} 
+          {path: 'postDetails', component: PostDetails},
+          {path: 'dataManagement', component: DataManagement, name: '数据配置',jurisdiction:"1"}
        ]
     }
     

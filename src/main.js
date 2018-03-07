@@ -6,9 +6,12 @@ import axios from 'axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
+import VueContextMenu from 'vue-contextmenu'
+import 'vue-contextmenu/style/css/font-awesome.min.css'
 
 Vue.prototype.$http = axios;
 Vue.use(ElementUI);
+Vue.use(VueContextMenu);
 Vue.config.productionTip = false;
 
 

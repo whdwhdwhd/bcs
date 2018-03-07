@@ -31,7 +31,12 @@
         <el-row class="mt">
             <el-col :span="8">
                 <el-form-item label="公司名:">
-                    <a :href="posInfo.cltWebsite">{{posInfo.cltName}}</a>
+                    <span>{{posInfo.cltName}}</span>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item label="官网:">
+                    <span>{{posInfo.cltWebsite}}</span>
                 </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -39,13 +44,13 @@
                     <span>{{posInfo.depart}}</span>
                 </el-form-item>
             </el-col>
+        </el-row>
+        <el-row class="mt">
             <el-col :span="8">
                 <el-form-item label="职位级别:">
                     <span>{{posInfo.posLevel}}</span>
                 </el-form-item>
             </el-col>
-        </el-row>
-        <el-row class="mt">
             <el-col :span="8">
                 <el-form-item label="职位名:">
                     <span>{{posInfo.posName}}</span>
@@ -56,13 +61,13 @@
                     <span>{{posInfo.isSecret?"是":"否"}}</span>
                 </el-form-item>
             </el-col>
+        </el-row>
+        <el-row class="mt">
             <el-col :span="8">
                 <el-form-item label="行业码:">
                     <span>{{posInfo.industryCode}}</span>
                 </el-form-item>
             </el-col>
-        </el-row>
-        <el-row class="mt">
             <el-col :span="8">
                 <el-form-item label="最低年薪（万元）:">
                     <span>{{posInfo.salaryStart}}</span>
@@ -71,11 +76,6 @@
             <el-col :span="8">
                 <el-form-item label="最高年薪（万元）:">
                     <span>{{posInfo.salaryEnd}}</span>
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item label="职位负责人姓名:">
-                    <span>{{posInfo.pmName}}</span>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -107,11 +107,16 @@
                     <span>{{posInfo.workAddress}}</span>
                 </el-form-item>
             </el-col>
+            <el-col :span="8">
+                <el-form-item label="职位负责人姓名:">
+                    <span>{{posInfo.pmName}}</span>
+                </el-form-item>
+            </el-col>
         </el-row>
         <el-row class="mt">
             <el-col :span="24">
                 <el-form-item label="职位简介:">
-                    <el-input type="textarea" disabled v-model="posInfo.jd" autosize placeholder="请输入工作内容"></el-input>
+                    <el-input class="textarea-jd" type="textarea" disabled v-model="posInfo.jd" autosize placeholder="请输入工作内容"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -179,7 +184,7 @@
                 </el-form-item>
             </el-col>
         </el-row>
-        <el-row class="mt mb">
+        <el-row class="mt mbb">
             <el-col :span="24">
                 <el-form-item label="操作内容:">
                     <span>{{posInfo.content}}</span>
@@ -187,7 +192,6 @@
             </el-col>
         </el-row>
     </el-form>
-    <el-button class="modification" type="primary" >修改</el-button>
   </div>
 </template>
 <script>
@@ -311,13 +315,13 @@ import goBack from '@/components/goBack';
   .mb{
       margin-bottom: 10px;
   }
+  .mbb{
+      margin-bottom: 60px;
+  }
   .lh{
       line-height: 40px;
   }
   .el-form-item{
       margin-bottom: 0px;
-  }
-  .modification{
-      margin-bottom: 60px;
   }
 </style>
