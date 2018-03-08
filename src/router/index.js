@@ -34,7 +34,7 @@ export default new Router({
           {path: 'postAuditDetails', component: PostAuditDetails},
           {path: 'post', component: Post, name: '职位列表',jurisdiction:"2"},
           {path: 'postDetails', component: PostDetails},
-          {path: 'dataManagement', component: DataManagement, name: '数据配置',jurisdiction:"1"}
+          {path: 'dataManagement', component: DataManagement, name: '系统配置',jurisdiction:"1"}
        ]
     }
     

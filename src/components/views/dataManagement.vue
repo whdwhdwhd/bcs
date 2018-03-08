@@ -2,57 +2,56 @@
     <div class="dataManagement">
         <v-goBack></v-goBack>
         <div class="dataManagement-content">
-                <el-tree :data="data" show-checkbox node-key="id" default-expand-all :expand-on-click-node="false" @node-contextmenu="rightButton" @contextmenu.native='contextmenuTrigger=true'>
-                    <span class="custom-tree-node" slot-scope="{ node, data }" @contextmenu.prevent="showMenu()">
-                        <span :data-da="data.id">{{ node.label }}</span>
-                        <vue-context-menu :contextMenuData="contextMenuData" @savedata="savedata(node,data)" @newdata="newdata()" @deletedata="deletedata()"></vue-context-menu>
-                    </span>
-                </el-tree>
+          <vue-ztree :list.sync='ztreeDataSourceList' :contextmenu='contextmenuClick' :is-open='true'></vue-ztree>
+          <vue-context-menu :contextMenuData="contextMenuData" @savedata="savedata()" @newdata="newdata()" @deletedata="deletedata()"></vue-context-menu>
         </div>
     </div>
 </template>
 <script>
+import vueZtree from '@/components/commonComponents/vue-ztree.vue'
 import goBack from '@/components/goBack';
 export default {
     data () {
         return {
-            id:"111",
-            data : [{
-                id: 1,
-                label: '一级 1',
-                children: [{
-                id: 4,
-                label: '二级 1-1',
-                children: [{
-                    id: 9,
-                    label: '三级 1-1-1'
-                }, {
-                    id: 10,
-                    label: '三级 1-1-2'
-                }]
-                }]
-            }, {
-                id: 2,
-                label: '一级 2',
-                children: [{
-                id: 5,
-                label: '二级 2-1'
-                }, {
-                id: 6,
-                label: '二级 2-2'
-                }]
-            }, {
-                id: 3,
-                label: '一级 3',
-                children: [{
-                id: 7,
-                label: '二级 3-1'
-                }, {
-                id: 8,
-                label: '二级 3-2'
-                }]
-            }],
-            contextMenuData: {
+            ztreeDataSourceList:[{
+              id:880,
+              name:"娱乐",
+              iconClass:"iconClassRoot",
+              open:true,
+              children:[{
+                id:881,
+                name:"游戏",
+                iconClass:"iconClassNode",
+              },{
+                id:882,
+                name:"电影",
+                clickNode:true,
+                iconClass:"iconClassNode",
+              },{
+                id:883,
+                name:"新闻",
+                iconClass:"iconClassNode",
+              }]
+          },{
+              id:990,
+              name:"BAT",
+              iconClass:"iconClassRoot",
+              open:false,
+              children:[{
+                  id:991,
+                  name:"马化腾",
+                  iconClass:"iconClassNode",
+              },{
+                  id:992,
+                  name:"李彦宏",
+                  iconClass:"iconClassNode",
+              },{
+                  id:993,
+                  name:"马云",
+                  iconClass:"iconClassNode",
+              }]
+          }],
+          contextMenuData: {
             menuName: 'demo',
                 axios: {
                     x: null,
@@ -77,8 +76,9 @@ export default {
                 ]
             },
             rightObj:null,
-            rightNode:null
-            
+            rightObjParent:null,
+            rightObjParentC:null,
+            rightObjLenght:null
         }
     },
     created () {
@@ -88,7 +88,8 @@ export default {
         
     },
     methods:{
-      showMenu () {
+      // 右击事件
+      contextmenuClick:function(m,l,t){
         event.preventDefault()
         var x = event.clientX
         var y = event.clientY
@@ -96,18 +97,30 @@ export default {
         this.contextMenuData.axios = {
           x, y
         }
+        this.rightObj=m;
+        this.rightObjParentC=t;
+        this.rightObjLenght=l;
       },
+      //添加
       newdata () {
-        var that=this;
         this.$prompt('请输入添加内容', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         }).then(({ value }) => {
-          const newChild = { id: that.id++, label: 'testtest', children: [] };
-          if (!that.rightObj.children) {
-            that.$set(that.rightObj, 'children', []);
+          var newData={
+              id:+new Date(),
+              name:value,
+              path:"",
+              iconClass:"iconClassNode",
+              clickNode:false,
+              isFolder:false,
+              isExpand:false,
+              loadNode:0,
+              children:[]
           }
-          that.rightObj.children.push(newChild);
+          this.$set(this.rightObj,"iconClass","iconClassRoot")
+          this.$set(this.rightObj,"isFolder",true)
+          this.rightObj.children.push(newData)   
           this.$message({
             type: 'success',
             message: '添加成功'
@@ -117,19 +130,15 @@ export default {
             type: 'info',
             message: '取消添加'
           });       
-        });
+        });    
       },
+      //修改
       savedata () {
-        var that=this;
       	this.$prompt('请输入修改内容', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
         }).then(({ value }) => {
-          const newChild = { id: that.rightObj.id, label: value};
-          const parent = that.rightNode.parent;
-          const children = parent.data.children || parent.data;
-          const index = children.findIndex(d => d.id === that.rightObj.id);
-          children.splice(index, 1,newChild);
+          this.$set(this.rightObj,"name",value)
           this.$message({
             type: 'success',
             message: '修改成功'
@@ -141,17 +150,14 @@ export default {
           });       
         });
       },
+      //删除
       deletedata () {
-        var that=this;
         this.$confirm('此操作将永久删除该项内容, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(({ value }) => {
-          const parent = that.rightNode.parent;
-          const children = parent.data.children || parent.data;
-          const index = children.findIndex(d => d.id === that.rightObj.id);
-          children.splice(index, 1);
+          this.rightObjParentC.splice(this.rightObjParentC.indexOf(this.rightObj),1);
           this.$message({
             type: 'success',
             message: '删除成功'
@@ -162,21 +168,35 @@ export default {
             message: '取消删除'
           });       
         });
-        
-      },
-      rightButton (event,obj,node,data) {
-          event.cancelBubble = true;
-        this.rightObj=obj;
-        this.rightNode=node;
       }
+      
     },
     components: {
-        "v-goBack":goBack
+        "v-goBack":goBack,
+        "vue-ztree":vueZtree
     }
 }
 </script>
 <style scoped>
 .dataManagement-content{
-
+  
 }
+.ztree {margin:0; padding:5px; color:#333 ;}
+.ztree li{position: relative; padding:0; margin:0; list-style:none; line-height:14px; text-align:left; white-space:nowrap; outline:0}
+.ztree li ul{ margin:0; padding:0 0 0 18px}
+.ztree li a {padding:1px 3px 0 5px; margin:0; cursor:pointer; height:17px; color:#333; background-color: transparent;
+		text-decoration:none; vertical-align:top; display: inline-block}
+.ztree li a:hover {text-decoration:underline;color:blue;}
+.ztree li span {line-height:16px; margin-right:2px; display: inline-block;}
+.ztree li span.button {line-height:0; margin:0; width:16px; height:16px; display: inline-block; vertical-align:middle;
+		border:0 none; cursor: pointer;outline:none;
+		background-color:transparent; background-repeat:no-repeat; background-attachment: scroll;
+		background-image:url("../../images/ztree/zTreeStandard.png"); *background-image:url("../../images/ztree/zTreeStandard.gif")}
+.ztree li span.button.roots_close {background-position: -74px 0;}
+.ztree li span.button.bottom_open {background-position: -92px -36px;}
+.ztree li span.button.ico_open{margin-right:2px; background-position:-110px -16px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ico_close{margin-right:2px; background-position:-110px 0; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.ico_docu{margin-right:2px; background-position:-110px -32px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.edit {margin-right:2px; background-position:-110px -48px; vertical-align:top; *vertical-align:middle}
+.ztree li span.button.remove {margin-right:2px; background-position:-110px -64px; vertical-align:top; *vertical-align:middle}
 </style>
