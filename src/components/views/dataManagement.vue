@@ -36,7 +36,7 @@ export default {
               id:990,
               name:"BAT",
               iconClass:"iconClassRoot",
-              open:false,
+              open:true,
               children:[{
                   id:991,
                   name:"马化腾",
@@ -181,22 +181,4 @@ export default {
 .dataManagement-content{
   
 }
-.ztree {margin:0; padding:5px; color:#333 ;}
-.ztree li{position: relative; padding:0; margin:0; list-style:none; line-height:14px; text-align:left; white-space:nowrap; outline:0}
-.ztree li ul{ margin:0; padding:0 0 0 18px}
-.ztree li a {padding:1px 3px 0 5px; margin:0; cursor:pointer; height:17px; color:#333; background-color: transparent;
-		text-decoration:none; vertical-align:top; display: inline-block}
-.ztree li a:hover {text-decoration:underline;color:blue;}
-.ztree li span {line-height:16px; margin-right:2px; display: inline-block;}
-.ztree li span.button {line-height:0; margin:0; width:16px; height:16px; display: inline-block; vertical-align:middle;
-		border:0 none; cursor: pointer;outline:none;
-		background-color:transparent; background-repeat:no-repeat; background-attachment: scroll;
-		background-image:url("../../images/ztree/zTreeStandard.png"); *background-image:url("../../images/ztree/zTreeStandard.gif")}
-.ztree li span.button.roots_close {background-position: -74px 0;}
-.ztree li span.button.bottom_open {background-position: -92px -36px;}
-.ztree li span.button.ico_open{margin-right:2px; background-position:-110px -16px; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.ico_close{margin-right:2px; background-position:-110px 0; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.ico_docu{margin-right:2px; background-position:-110px -32px; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.edit {margin-right:2px; background-position:-110px -48px; vertical-align:top; *vertical-align:middle}
-.ztree li span.button.remove {margin-right:2px; background-position:-110px -64px; vertical-align:top; *vertical-align:middle}
 </style>

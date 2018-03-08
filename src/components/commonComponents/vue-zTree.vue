@@ -135,6 +135,9 @@
     .center_docu+a .iconClassRoot{
         background: url(../../images/ztree/zTreeStandard.png) no-repeat -110px -32px;
     }
+    .bottom_docu+a .iconClassRoot{
+        background: url(../../images/ztree/zTreeStandard.png) no-repeat -110px -32px;
+    }
     .iconClassNode{
         background: url(../../images/ztree/zTreeStandard.png) no-repeat -110px -32px;
     }

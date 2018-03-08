@@ -744,6 +744,8 @@
     created: function () {
         this.getCddInfo();
         this.uploadFile();
+        this.getupdateEduExp()
+
         this.handleItemChange();
     },
     watch:{
@@ -969,6 +971,161 @@
         }).catch(function(err){
             _this.$message.error('请求数据失败，请刷新页面！');
         });
+      },
+      //系统配置
+      updateEduExp(obj,callBack){
+        var str=JSON.stringify(obj);
+        this.$http.get(getDataList.updateEduExp()+str).then((data) => {
+            if (data.code==0) {
+                callBack(data.data);
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      getupdateEduExp(){
+        //性取向
+        this.updateEduExp({},function(){
+
+        })
+        //学历
+        this.updateEduExp({},function(){
+
+        })
+        //婚姻
+        this.updateEduExp({},function(){
+
+        })
+        //房贷压力
+        this.updateEduExp({},function(){
+
+        })
+        //语言种类
+        this.updateEduExp({},function(){
+
+        })
+        //语言-读写能力
+        this.updateEduExp({},function(){
+
+        })
+        //语言-听能力
+        this.updateEduExp({},function(){
+
+        })
+        //语言-说能力
+        this.updateEduExp({},function(){
+
+        })
+        //语言考试等级，与语言种类相关
+        this.updateEduExp({},function(){
+
+        })
+        //语速
+        this.updateEduExp({},function(){
+
+        })
+        //思维
+        this.updateEduExp({},function(){
+
+        })
+        //风格
+        this.updateEduExp({},function(){
+
+        })
+        //特征
+        this.updateEduExp({},function(){
+
+        })
+        //外形
+        this.updateEduExp({},function(){
+
+        })
+        //气质
+        this.updateEduExp({},function(){
+
+        })
+        //离家距离
+        this.updateEduExp({},function(){
+
+        })
+        //工作强度
+        this.updateEduExp({},function(){
+
+        })
+        //产品参与周期
+        this.updateEduExp({},function(){
+
+        })
+        //产品重要性
+        this.updateEduExp({},function(){
+
+        })
+        //证书--与职位方向关联
+        this.updateEduExp({},function(){
+
+        })
+        //求职状态
+        this.updateEduExp({},function(){
+
+        })
+        //大学类型
+        this.updateEduExp({},function(){
+
+        })
+        //大学招收类型
+        this.updateEduExp({},function(){
+
+        })
+        //产品重要性
+        this.updateEduExp({},function(){
+
+        })
+        //知名比赛 -- 与行业关联
+        this.updateEduExp({},function(){
+
+        })
+        //知名刊物 -- 与行业关联
+        this.updateEduExp({},function(){
+
+        })
+        //对象职位
+        this.updateEduExp({},function(){
+
+        })
+        //大学
+        this.updateEduExp({},function(){
+
+        })
+        //职位方向，与行业关联
+        this.updateEduExp({},function(){
+
+        })
+        //职位，与职位方向关联
+        this.updateEduExp({},function(){
+
+        })
+        //公司类型
+        this.updateEduExp({},function(){
+
+        })
+        //公司规模
+        this.updateEduExp({},function(){
+
+        })
+        //城市
+        this.updateEduExp({},function(){
+
+        })
+        //行业
+        this.updateEduExp({},function(){
+
+        })
+        //领域
+        this.updateEduExp({},function(){
+
+        })
       },
 //**********************************************************************
 //**********************************************************************

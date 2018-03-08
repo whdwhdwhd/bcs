@@ -176,4 +176,7 @@ import axios from 'axios';
   .consultPages{
     margin-top: 0;
   }
+  .el-tab-pane{
+    margin-bottom: 60px;
+  }
 </style>

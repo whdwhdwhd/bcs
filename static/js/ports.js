@@ -12,7 +12,8 @@ var totalPort={
     //更新职业信息
     updatePosInfo:function(){return this.port+"/position/info/updatePosInfo.htm"},
     //获取会员审核列表
-
+    getUserList:function(){return this.port+"/wx/user/getUserList.htm"},
+     
     //获取详细的会员信息
     getCddInfo:function(){return this.port+"/cdd/info/getCddInfo.htm"},
     //更新会员信息
@@ -52,5 +53,7 @@ var totalPort={
     //添加某个孩子
     updateEduExp:function(){return this.port+"/cdd/info/addChildInfo.htm"},
     
+    //系统配置
+    getDataList:function(){return this.port+"/system/getDataList.htm"}
     
 }
