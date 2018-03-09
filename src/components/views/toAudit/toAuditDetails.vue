@@ -42,8 +42,8 @@
                     <el-col :span="8">
                         <el-form-item label="性别：">
                             <el-radio-group v-model="cddInfoData.sex">
-                            <el-radio label="男"></el-radio>
-                            <el-radio label="女"></el-radio>
+                            <el-radio label="1">男</el-radio>
+                            <el-radio label="0">女</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -54,13 +54,13 @@
                             v-model="time"
                             ></el-cascader>-->
                             <!--时间组件-->
-                            <sel-time :name="'birthDay'" :times="cddInfoData.birthDay" @selT="setTime"></sel-time>
+                            <sel-time :name="'birthDay'" :times="cddInfoData.birthDay" v-model="cddInfoData.birthDay" @selT="setTime"></sel-time>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="出生地：">
+                        <!--<el-form-item label="出生地：">
                             <el-cascader :options="option3" change-on-select v-model="cddInfoData.birthPlace"></el-cascader>
-                        </el-form-item>
+                        </el-form-item>-->
                     </el-col>
                 </el-row>
                 <!--<el-row class="mt">
@@ -81,8 +81,8 @@
                         <el-form-item label="气质：">
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row class="mt">
+                </el-row>-->
+                <!--<el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="体重：">
                             
@@ -123,13 +123,23 @@
                                 <li v-for="lang in languages">{{lang.value1}}    {{lang.value2}}<i class="el-icon-close"></i></li>
                             </ul>
                             <div class="fl">
-                                <el-select v-model="language.value1" placeholder="语言类型">
+                                <!--<el-select v-model="language.value1" placeholder="语言类型">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
                                 </el-select>
                                 <el-select v-model="language.value2" placeholder="熟练程度">
                                     <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                                <el-button type="primary">添加语言</el-button>
+                                </el-select>-->
+                                <el-button type="primary" v-popover:popover4>添加语言</el-button>
+                                <el-popover ref="popover4" width="400" trigger="click">
+                                    <h3>语言类型</h3>
+                                    <div>
+                                        <el-checkbox-group v-model="languageList">
+                                            <el-checkbox label="1">普通话</el-checkbox>
+                                            <el-checkbox label="2">英语</el-checkbox>
+                                            <el-checkbox label="3">德语</el-checkbox>
+                                        </el-checkbox-group>
+                                    </div>
+                                </el-popover>
                             </div>
                         </el-form-item>
                     </el-col>
@@ -168,7 +178,7 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="婚姻：">
-                            <el-radio-group v-model="ruleForm.resource">
+                            <el-radio-group v-model="cddInfoData.marrySts">
                                 <el-radio label="1">已婚</el-radio>
                                 <el-radio label="2">未婚</el-radio>
                             </el-radio-group>
@@ -236,18 +246,18 @@
                 <div class="education">
                     <el-row class="mt">
                         <el-col :span="8">
-                            <el-form-item label="学历：">
-                                <el-select v-model="value2" placeholder="请选择学历">
-                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            <!--<el-form-item label="学历：">
+                                <el-select v-model="ruleForm.eduExpList.diplomaCode" placeholder="请选择学历">
+                                    <el-option v-for="item in educationList" :key="item.id" :label="item.name" :value="item.code"></el-option>
                                 </el-select>
-                            </el-form-item>
+                            </el-form-item>-->
                         </el-col>
                         <el-col :span="8">
-                            <el-form-item label="毕业学校：">
-                                <el-select v-model="value9" filterable remote reserve-keyword placeholder="请输入毕业学校" :remote-method="remoteMethod">
-                                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            <!--<el-form-item label="毕业学校：">
+                                <el-select v-model="ruleForm.eduExpList.school" filterable remote reserve-keyword placeholder="请输入毕业学校" :remote-method="schoolMethod">
+                                    <el-option v-for="item in schoolList" :key="item.id" :label="item.name" :value="item.code"></el-option>
                                 </el-select>
-                            </el-form-item>
+                            </el-form-item>-->
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="专业：">
@@ -470,7 +480,7 @@
                 </el-row>
             </el-form>
         </div>
-        <el-button class="modification" type="primary" >修改</el-button>
+        <el-button class="modification" type="primary" @click="modification">修改</el-button>
     </div>
     
   </div>
@@ -483,7 +493,14 @@
       return {
         cddInfoData:{},
         languages:[],
-
+        languageList:[],
+        literacyList:[],
+        listenList:[],
+        speakList:[],
+        gradeList:[],
+        //接口列表
+        educationList:[],
+        schoolList:[],
 
 
         data:{
@@ -744,7 +761,7 @@
     created: function () {
         this.getCddInfo();
         this.uploadFile();
-        this.getupdateEduExp()
+        // this.getupdateEduExp()
 
         this.handleItemChange();
     },
@@ -755,11 +772,11 @@
       // 获取详细信息
       getCddInfo(){
           var _this=this;
-          this.$http.get(totalPort.getCddInfo()+'?cddId=1'+'&infoFlag=73300775185').then((data) => {
-            if (data.code==0) {
-                this.cddInfoData=data.data;
+          this.$http.get(totalPort.getCddInfo()+'?cddId='+this.$route.query.id+'&infoFlag=73300775185').then((data) => {
+            if (data.data.code==0) {
+                this.cddInfoData=data.data.data;
             }else{
-                console.log("报错")
+                console.log("报错详细信息")
             }
             this.getLanguageInfoById()
         }).catch(function(err){
@@ -775,7 +792,7 @@
             if (data.code==0) {
                 this.languages=data.data.posInfo;
             }else{
-                console.log("报错")
+                console.log("报错语言")
             }
         }).catch(function(err){
             _this.$message.error('请求数据失败，请刷新页面！');
@@ -974,8 +991,9 @@
       },
       //系统配置
       updateEduExp(obj,callBack){
+        var _this=this;
         var str=JSON.stringify(obj);
-        this.$http.get(getDataList.updateEduExp()+str).then((data) => {
+        this.$http.get(totalPort.updateEduExp()+str).then((data) => {
             if (data.code==0) {
                 callBack(data.data);
             }else{
@@ -987,12 +1005,22 @@
       },
       getupdateEduExp(){
         //性取向
-        this.updateEduExp({},function(){
-
-        })
+        // this.updateEduExp({
+        //     dataType:1,   //数据种类
+        //     codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+        //     keyword:"",     //关键词
+        //     useType:1
+        // },function(data){
+        //     console.log(data)
+        // })
         //学历
-        this.updateEduExp({},function(){
-
+        this.updateEduExp({
+            dataType:2,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        },function(data){
+            this.educationList=data;
         })
         //婚姻
         this.updateEduExp({},function(){
@@ -1003,24 +1031,49 @@
 
         })
         //语言种类
-        this.updateEduExp({},function(){
-
+        this.updateEduExp({
+            dataType:5,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        },function(data){
+            this.languageList=data;
         })
         //语言-读写能力
-        this.updateEduExp({},function(){
-
+        this.updateEduExp({
+            dataType:6,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        },function(data){
+            this.literacyList=data;
         })
         //语言-听能力
-        this.updateEduExp({},function(){
-
+        this.updateEduExp({
+            dataType:7,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        },function(data){
+            this.listenList=data;
         })
         //语言-说能力
-        this.updateEduExp({},function(){
-
+        this.updateEduExp({
+            dataType:8,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        },function(data){
+            this.speakList=data;
         })
         //语言考试等级，与语言种类相关
-        this.updateEduExp({},function(){
-
+        this.updateEduExp({
+            dataType:9,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        },function(data){
+            this.gradeList=data;
         })
         //语速
         this.updateEduExp({},function(){
@@ -1094,10 +1147,7 @@
         this.updateEduExp({},function(){
 
         })
-        //大学
-        this.updateEduExp({},function(){
-
-        })
+        
         //职位方向，与行业关联
         this.updateEduExp({},function(){
 
@@ -1126,6 +1176,38 @@
         this.updateEduExp({},function(){
 
         })
+      },
+      //输入文字搜索相关
+      schoolMethod(vel){
+        //大学
+        this.updateEduExp({
+            dataType:26,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:val,     //关键词
+            useType:1
+        },function(data){
+            this.schoolList=data;
+        })
+      },
+      //修改简历
+      modification(){
+        var _this=this;
+        var str="?";
+        for (var key in this.cddInfoData) {
+            str+=key+"="+this.cddInfoData[key]+"&";
+        }
+        str=str+"updateFlag=266547945"
+        console.log(str)
+        this.$http.get(totalPort.updateCddInfo()+str).then((data) => {
+            console.log(data)
+            // if (data.code==0) {
+                
+            // }else{
+            //     console.log("报错")
+            // }
+        }).catch(function(err){
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
       },
 //**********************************************************************
 //**********************************************************************

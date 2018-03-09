@@ -23,6 +23,7 @@
   .goBack{
       height: 30px;
       line-height: 30px;
+      border-bottom: 1px solid #ccc;
   }
   .goBackCh{
       float: left;

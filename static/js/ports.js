@@ -11,8 +11,6 @@ var totalPort={
     // postAuditSubPort:function(){return "/api/position/info/check.htm"},
     //更新职业信息
     updatePosInfo:function(){return this.port+"/position/info/updatePosInfo.htm"},
-    //获取会员审核列表
-    getUserList:function(){return this.port+"/wx/user/getUserList.htm"},
      
     //获取详细的会员信息
     getCddInfo:function(){return this.port+"/cdd/info/getCddInfo.htm"},
@@ -54,6 +52,25 @@ var totalPort={
     updateEduExp:function(){return this.port+"/cdd/info/addChildInfo.htm"},
     
     //系统配置
-    getDataList:function(){return this.port+"/system/getDataList.htm"}
+    getDataList:function(){return this.port+"/system/getDataList.htm"},
+    //获取数据项信息
+    getDataInfo:function(){return this.port+"/system/getDataInfo.htm"},
+    //删除数据
+    deleteDataInfo:function(){return this.port+"/system/deleteDataInfo.htm"},
+    //更新数据
+    updateDataInfo:function(){return this.port+"/system/updateDataInfo.htm"},
+    //添加数据
+    addDataInfo:function(){return this.port+"/system/addDataInfo.htm"},
+    //调整排序
+    chgOrder:function(){return this.port+"/system/chgOrder.htm"},
+
+    //获取人选列表
+    getUserList:function(){return this.port+"/wx/user/getUserList.htm"},
+    //获取人选数量
+    getCheckCnt:function(){return this.port+"/wx/user/getCheckCnt.htm"},
+    //获取人选数量概要
+    getCheckSummary:function(){return this.port+"/wx/user/getCheckSummary.htm"},
+    //审核
+    setStatus:function(){return this.port+"/wx/user/setStatus.htm"},
     
 }
