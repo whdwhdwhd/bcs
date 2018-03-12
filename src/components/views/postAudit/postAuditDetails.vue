@@ -20,7 +20,7 @@
     </el-row>
     <el-input
     class="input-text"
-    v-if="value==2"
+    v-if="value==3"
     type="textarea"
     :autosize="{ minRows: 2, maxRows: 4}"
     placeholder="请输入不通过原因"
@@ -225,7 +225,14 @@ import goBack from '@/components/goBack';
       //请求职位详情
       requestList(){
           var _this=this;
-          this.$http.get(totalPort.getPosInfo()+'?posId='+this.$route.query.id+'&infoFlag=7').then((data) => {
+          _this.$http({
+              url: totalPort.getPosInfo(),
+              method: 'post', 
+              data: _this.$qs.stringify({
+                  posId:_this.$route.query.id,
+                  infoFlag:7
+          })})
+          .then((data) => {
           if (data.data.code==0) {
             this.posInfo=data.data.data.posInfo;
             this.value=this.posInfo.checkStatus.toString()
@@ -261,7 +268,14 @@ import goBack from '@/components/goBack';
                 });
                 return false;
             };
-            _this.$http.get(totalPort.subCheck()+"?posId="+this.posInfo.id+"&checkSts="+this.value+"&comment="+this.comment)
+            _this.$http({
+                url: totalPort.subCheck(),
+                method: 'post', 
+                data: _this.$qs.stringify({
+                    posId:_this.posInfo.id,
+                    checkSts:_this.value,
+                    comment:_this.comment
+            })})
             .then(function(res){
                 console.log(res)
                 if (res.data.code==0) {

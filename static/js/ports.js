@@ -1,5 +1,6 @@
 var totalPort={
-    port:"http://19811k2o66.51mypc.cn/ojee-bg-web",  //端口1
+    // port:"http://19811k2o66.51mypc.cn/ojee-bg-web",  //端口1  vpn
+    port:"http://121.42.145.242/ojee-bg-web",  //端口2
     //职位列表请求
     getCheckList:function(){return this.port+"/position/list/getCheckList.htm"},
     // getCheckList:function(){return "/api/ojee-bg-web/position/list/getCheckList.htm"},

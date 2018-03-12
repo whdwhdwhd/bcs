@@ -216,7 +216,15 @@
       //获取列表
       getUserList(checkSts){
         var _this=this;
-        this.$http.get(totalPort.getUserList()+'?checkSts='+checkSts+'&curPage='+this.currentPage+'&cntPerPage='+this.cntPerPage).then((data) => {
+        _this.$http({
+          url: totalPort.getUserList(),
+           method: 'post', 
+           data: _this.$qs.stringify({
+             checkSts:checkSts,
+             curPage:_this.currentPage,
+             cntPerPage:_this.cntPerPage
+           })})
+        .then((data) => {
             if (data.data.code==0) {
               this.total=data.data.data.page.totalPage*data.data.data.page.cntPerPage;
               if (checkSts===3) {

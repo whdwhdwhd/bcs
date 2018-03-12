@@ -126,7 +126,16 @@ import axios from 'axios';
     },
     methods: {
       requestList(checkSts){
-        this.$http.get(totalPort.getCheckList()+'?checkSts='+checkSts+'&curPage='+this.currentPage+'&cntPerPage='+this.cntPerPage+'&infoFlag=147459').then((data) => {
+        this.$http({
+          url: totalPort.getCheckList(),
+           method: 'post', 
+           data: this.$qs.stringify({
+             checkSts:checkSts,
+             curPage:this.currentPage,
+             cntPerPage:this.cntPerPage,
+             infoFlag:147459
+           })})
+        .then((data) => {
           console.log(data)
           if (data.data.code==0) {
             this.total=data.data.data.page.totalPage*data.data.data.page.cntPerPage;
