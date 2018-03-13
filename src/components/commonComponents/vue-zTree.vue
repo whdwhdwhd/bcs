@@ -208,10 +208,7 @@ export default{
 	},
 	methods:{
         initTreeData(){
-			// console.log(this.list)
             var tempList = JSON.parse(JSON.stringify(this.list));
-			// console.log("tempList")
-            // console.log(tempList)
             // 递归操作，增加删除一些属性。比如: 展开/收起
             var recurrenceFunc = (data) => {
                 data.forEach((m)=>{
@@ -230,7 +227,6 @@ export default{
 	               	}
 
 	               	m.loadNode = 0; 
-	               	console.log(m.isFolder)
 	               	recurrenceFunc(m.children);
     
                     

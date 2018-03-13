@@ -385,6 +385,7 @@ export default {
               _this.ajaxList(index,_this.ztreeData[0].children[key])
             }
           }
+          _this.count+=1;
         })
       },
       //循环列表
