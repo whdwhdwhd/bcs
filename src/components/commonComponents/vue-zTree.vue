@@ -212,22 +212,30 @@ export default{
             // 递归操作，增加删除一些属性。比如: 展开/收起
             var recurrenceFunc = (data) => {
                 data.forEach((m)=>{
-                    if(!m.hasOwnProperty("clickNode")){
-	                    m.clickNode = m.hasOwnProperty("clickNode") ? m.clickNode : false;
-	                }
+					if (m==null) {
+						m={
+							children:[]
+						};
+						recurrenceFunc(m.children);
+					}else{
+						if(!m.hasOwnProperty("clickNode")){
+							m.clickNode = m.hasOwnProperty("clickNode") ? m.clickNode : false;
+						}
 
-                    m.children = m.children || [];
-            
-                    if(	!m.hasOwnProperty("isFolder") ) {
-	               		m.isFolder =  m.hasOwnProperty("open") ? m.open : this.isOpen;
-	                }
+						m.children = m.children || [];
+				
+						if(	!m.hasOwnProperty("isFolder") ) {
+							m.isFolder =  m.hasOwnProperty("open") ? m.open : this.isOpen;
+						}
 
-	                if(	!m.hasOwnProperty("isExpand") ) {
-	               		m.isExpand =  m.hasOwnProperty("open") ? m.open : this.isOpen;
-	               	}
+						if(	!m.hasOwnProperty("isExpand") ) {
+							m.isExpand =  m.hasOwnProperty("open") ? m.open : this.isOpen;
+						}
 
-	               	m.loadNode = 0; 
-	               	recurrenceFunc(m.children);
+						m.loadNode = 0; 
+						recurrenceFunc(m.children);
+					}
+                    
     
                     
                 })

@@ -1,30 +1,30 @@
 <template>
     <div class="dataManagement">
         <v-goBack></v-goBack>
-        <el-row class="dataManagement-main">
-          <el-col :span="4" class="h">
+        <el-container class="dataManagement-main">
+          <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
             <el-menu
-            default-active="1"
-            class="el-menu-vertical-demo h"
-            @select="handleSelect">
-              <el-submenu v-for="( data,index ) in dataList"  :key="index" :index="data.id">
-                <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>{{data.name}}</span>
-                </template>
-                <el-menu-item v-for="( item,index ) in data.children"  :key="index" :index="item.id">
-                  <span slot="title">{{item.name}}</span>
-                </el-menu-item>
-              </el-submenu>
-            </el-menu>
-          </el-col>
-          <el-col :span="20">
+              default-active="1"
+              class="el-menu-vertical-demo h"
+              @select="handleSelect">
+                <el-submenu v-for="( data,index ) in dataList"  :key="index" :index="data.id">
+                  <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span>{{data.name}}</span>
+                  </template>
+                  <el-menu-item v-for="( item,index ) in data.children"  :key="index" :index="item.id">
+                    <span slot="title">{{item.name}}</span>
+                  </el-menu-item>
+                </el-submenu>
+              </el-menu>
+          </el-aside>
+          <el-container>
             <div class="dataManagement-content">
               <vue-ztree :list.sync='ztreeData' :count.sync='count' :contextmenu='contextmenuClick' :is-open='true'></vue-ztree>
               <vue-context-menu :contextMenuData="contextMenuData" @savedata="savedata" @newdata="newdata" @deletedata="deletedata()"></vue-context-menu>
             </div>
-          </el-col>
-        </el-row>
+          </el-container>
+        </el-container>
         <el-dialog :title="dialogTitle" :visible.sync="dialogTableVisible" width="40%">
           <el-form :model="dialogForm" :label-position="positionRight"  label-width="150">
             <el-form-item label="名称：">
@@ -273,8 +273,8 @@ export default {
         if (this.dialogTitle==="添加") {
           this.dialogForm={
               name:"",
-              isUse:Number,
-              isModify:Number
+              isUse:1,
+              isModify:1
             }
         }
       }
@@ -303,8 +303,8 @@ export default {
         _this.dialogTitle="添加"; 
         this.dialogForm={
           name:"",
-          isUse:Number,
-          isModify:Number
+          isUse:1,
+          isModify:1
         } 
       },
       //修改
@@ -336,12 +336,13 @@ export default {
       subBtn(){
         var _this=this;
         if (this.dialogTitle=="添加") {
+          console.log(this.rightObj)
           var obj={
             name:this.dialogForm.name,    //名
             isUse:parseInt(this.dialogForm.isUse),    //1—启用/0—停用
             isModify:parseInt(this.dialogForm.isModify),    //是否可编辑/删除 1—可 0 –不可
-            dataType:parseInt(this.rightObj.id)
           }
+          this.rightObj.parents===undefined? obj.dataType=this.rightObj.id:obj.dataType=this.rightObj.parents;
           if(this.rightObj.code!=undefined) obj.code=this.rightObj.code;
           _this.addAjax(obj,this.rightObj.id) 
         } else if(this.dialogTitle=="修改") {
@@ -364,70 +365,49 @@ export default {
             keyword:"",     //关键词
             useType:2
         },function(data){
+          var strNum=2;
           _this.ajaxData=data;
           _this.ztreeData[0].id=index;
           var childrens=_this.dataList[indexPath[0]-1].children;
           for (var chi in childrens) {
             if (childrens[chi].id==indexPath[1]) {
-              _this.ztreeData[0].name=childrens[chi].name;
+              _this.ztreeData[0].name=childrens[chi].name;   
+              break;
             }
           }
-          
           _this.ztreeData[0].children=[];
-          for (let key in data) {
-            if (data.hasOwnProperty(key)) {
-              _this.ztreeData[0].children[key]={};
-              _this.ztreeData[0].children[key].id=data[key].id;
-              _this.ztreeData[0].children[key].code=data[key].code;
-              _this.ztreeData[0].children[key].name=data[key].name;
-              _this.ztreeData[0].children[key].iconClass="iconClassNode";
-              _this.ztreeData[0].children[key].parent=_this.ztreeData[0].id;
-              _this.ajaxList(index,_this.ztreeData[0].children[key])
-            }
-          }
+          _this.ajaxList(index,data,_this.ztreeData[0])
           _this.count+=1;
         })
       },
       //循环列表
-      ajaxList(index,chis){
-        var _this=this;
-        _this.count+=1;
+      ajaxList(dataType,data,chis){
+        console.log(data)
+        for (let key in data) {
+           var i=0;
+           var TmpNode;
+           if( undefined == chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
+              TmpNode = chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
+           i = i+2;
+           while( i<data[key].code.length ){
+             
+            if( TmpNode.children==undefined ) {
+              TmpNode.children=[];
+              TmpNode.iconClass="iconClassRoot";
+            };
+            if( undefined == TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
+            TmpNode = TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
+            i+= 2;
+          };
+          TmpNode.id=data[key].id;
+          TmpNode.code=data[key].code;
+          TmpNode.name=data[key].name;
+          TmpNode.iconClass="iconClassNode";
+          TmpNode.parents=dataType;
+          TmpNode.isModify=data[key].isModify;
+          TmpNode.isUse=data[key].isUse;
+        }
         console.log(chis)
-        chis.iconClass="iconClassNode";
-        this.$http({
-          url: totalPort.getDataList(),
-          method: 'post', 
-          data: this.$qs.stringify({
-            dataType:chis.id,   //数据种类
-            codePrefix:chis.code,   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:2
-          })})
-        .then((data) => {
-            if (data.data.code==0) {
-                if (data.data.data===undefined) {
-                  data.data.data=[];
-                }
-                if (data.data.data.length>0) chis.iconClass="iconClassRoot";
-                chis.children=data.data.data;
-                console.log(chis)
-                if (chis.children.length>0) {
-                  for (let y = 0; y < chis.children.length; y++) {
-                    chis.children[y].iconClass="iconClassNode";
-                    chis.children[y].parent=chis.id;
-                    // chis.children[y].isExpand=false;
-                    // chis.children[y].isFolder=false;
-                    _this.ajaxList(chis.children[y].id,chis.children[y]);
-                  }
-                }
-                
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            console.log(err)
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
       },
       //接口
       getDataList(obj,callBack){
@@ -497,7 +477,7 @@ export default {
       //删除接口
       deleteAjax(obj){
         var _this=this;
-        var str="?id="+obj.id+"&dataType="+obj.parent;
+        var str="?id="+obj.id+"&dataType="+obj.parents;
         this.$http.get(totalPort.deleteDataInfo()+str)
         .then((data) => {
             if (data.data.code==0) {
@@ -526,8 +506,9 @@ export default {
   height:100%;
 }
 .dataManagement-main{
-  height:100%;
-  margin-top:10px;
+  height:90%;
+  /*margin-top:10px;*/
+  border: 1px solid #eee;
 }
 .h{
   height:100%;
