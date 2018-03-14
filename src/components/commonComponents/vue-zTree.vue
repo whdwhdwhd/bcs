@@ -211,18 +211,11 @@ export default{
             var tempList = JSON.parse(JSON.stringify(this.list));
             // 递归操作，增加删除一些属性。比如: 展开/收起
             var recurrenceFunc = (data) => {
-                data.forEach((m)=>{
-					if (m==null) {
-						m={
-							children:[]
-						};
-						recurrenceFunc(m.children);
-					}else{
-						if(!m.hasOwnProperty("clickNode")){
+                var i=0;
+				var m=data;
+				if(!m.hasOwnProperty("clickNode")){
 							m.clickNode = m.hasOwnProperty("clickNode") ? m.clickNode : false;
 						}
-
-						m.children = m.children || [];
 				
 						if(	!m.hasOwnProperty("isFolder") ) {
 							m.isFolder =  m.hasOwnProperty("open") ? m.open : this.isOpen;
@@ -233,15 +226,22 @@ export default{
 						}
 
 						m.loadNode = 0; 
-						recurrenceFunc(m.children);
+				
+				if( data.children===undefined )
+					return;	
+				while( i<data.children.length ){
+					m = data.children[i];
+					if(m==null){
+						data.children.splice(data.children.indexOf(m),1);
+						continue;
 					}
-                    
-    
-                    
-                })
+					i++;
+					recurrenceFunc(m);
+                }
+
             };
 
-            recurrenceFunc(tempList);
+            recurrenceFunc(tempList[0]);
             this.treeDataSource = tempList;
         }
 	},

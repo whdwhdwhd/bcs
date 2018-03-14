@@ -42,6 +42,15 @@
                 <el-radio :label="1">是</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="城市类型：" v-if="dialogForm.cityType">
+              <el-input class="wid" v-model="dialogForm.cityType" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="所在城市码值：" v-if="dialogForm.cityCode">
+              <el-input class="wid" v-model="dialogForm.cityCode" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="大学类型：" v-if="dialogForm.uniType">
+              <el-input class="wid" v-model="dialogForm.uniType" auto-complete="off"></el-input>
+            </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="dialogTableVisible = false">取 消</el-button>
@@ -172,6 +181,10 @@ export default {
                   {
                     id:"28",
                     name:"职位"
+                  },
+                  {
+                    id:"29",
+                    name:"对象职位"
                   },
                   {
                     id:"40",
@@ -305,7 +318,13 @@ export default {
           name:"",
           isUse:1,
           isModify:1
-        } 
+        }
+        if (this.rightObj.id==61) this.dialogForm.cityType="";
+        if (this.rightObj.id==26) {
+          this.dialogForm.cityCode="";
+          this.dialogForm.uniType="";
+        }
+
       },
       //修改
       savedata () {
@@ -376,6 +395,7 @@ export default {
         },function(data){
           var strNum=2;
           _this.ajaxData=data;
+          _this.ztreeData[0].children=null;
           _this.ztreeData[0].id=index;
           var childrens=_this.dataList[indexPath[0]-1].children;
           for (var chi in childrens) {
@@ -384,114 +404,88 @@ export default {
               break;
             }
           }
-          _this.ztreeData[0].children=[];
+          //_this.ztreeData[0].children=[];
           _this.ajaxList(index,data,_this.ztreeData[0])
           _this.count+=1;
         })
       },
+
+      NewNode(data,PNode,dataType){
+        this.relevance(data,PNode,dataType)
+        var tmpNode = PNode;
+        var i = 0;
+        while( i<data.code.length ){
+          if(tmpNode.children == undefined)
+              tmpNode.children = [];
+          if(tmpNode.children[ parseInt(data.code.substring(i,i+2))-1 ]==undefined )
+              tmpNode.children[ parseInt(data.code.substring(i,i+2))-1 ]  = {};     
+          tmpNode = tmpNode.children[ parseInt( data.code.substring(i,i+2) )-1 ];
+          i+=2;
+        }
+        tmpNode.id=data.id;
+        tmpNode.code=data.code;
+        tmpNode.name=data.name;
+        tmpNode.iconClass="iconClassNode";
+        tmpNode.parents=dataType;
+        tmpNode.isModify=data.isModify;
+        tmpNode.isUse=data.isUse;
+      },
+
       //循环列表
       ajaxList(dataType,data,chis){
         var _this=this;
-        if (dataType==9) {
-          this.getDataList({
-              dataType:5,   //数据种类
-              codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-              keyword:"",     //关键词
-              useType:2
-          },function(res){
-            for (let key in res) {
-              var i=0;
-              var TmpNode;
-              if( undefined == chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] = {};
-                  TmpNode = chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ];
-              TmpNode.id=res[key].id;
-              TmpNode.code=res[key].code;
-              TmpNode.name=res[key].name;
-              TmpNode.iconClass="iconClassNode";
-              TmpNode.parents=dataType;
-              TmpNode.isModify=res[key].isModify;
-              TmpNode.isUse=res[key].isUse;
-            }
-            _this.circulation(dataType,data,chis)
-          })
-        } else if ( dataType==24 || dataType==25 || dataType==27 ) {
-          this.getDataList({
-              dataType:62,   //数据种类
-              codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-              keyword:"",     //关键词
-              useType:2
-          },function(res){
-            for (let key in res) {
-              var i=0;
-              var TmpNode;
-              if( undefined == chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] = {};
-                  TmpNode = chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ];
-              TmpNode.id=res[key].id;
-              TmpNode.code=res[key].code;
-              TmpNode.name=res[key].name;
-              TmpNode.iconClass="iconClassNode";
-              TmpNode.parents=dataType;
-              TmpNode.isModify=res[key].isModify;
-              TmpNode.isUse=res[key].isUse;
-            }
-            _this.circulation(dataType,data,chis)
-          })
-        } else if ( dataType==20 || dataType==28) {
-          this.getDataList({
-              dataType:27,   //数据种类
-              codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-              keyword:"",     //关键词
-              useType:2
-          },function(res){
-            for (let key in res) {
-              var i=0;
-              var TmpNode;
-              if( undefined == chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] = {};
-                  TmpNode = chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ];
-              TmpNode.id=res[key].id;
-              TmpNode.code=res[key].code;
-              TmpNode.name=res[key].name;
-              TmpNode.iconClass="iconClassNode";
-              TmpNode.parents=dataType;
-              TmpNode.isModify=res[key].isModify;
-              TmpNode.isUse=res[key].isUse;
-            }
-            _this.circulation(dataType,data,chis)
-          })
-        } else {
-          _this.circulation(dataType,data,chis)
+        for (var i = 0; i < data.length; i++) {
+          _this.NewNode(data[i],chis,dataType)
+          
         }
-        
-        
+        this.count+=1;
       },
-      //循环
-      circulation(dataType,data,chis){
+      //关联
+      relevance(data,PNode,dataType){
+        if ( dataType == 9 ) {
+          var obj={
+            dataType:5,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:2
+          }
+          this.secondary(obj,PNode,dataType)
+        }else if(dataType == 24 || dataType == 25 || dataType == 27 ){
+          var obj={
+            dataType:62,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:2
+          }
+          this.secondary(obj,PNode,dataType)
+        }else if( dataType == 20 || dataType == 28 ){
+          var obj={
+            dataType:27,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:2
+          }
+          this.secondary(obj,PNode,dataType)
+        }
+      },
+      //次级
+      secondary(obj,PNode,dataType){
         var _this=this;
-        for (let key in data) {
-            var i=0;
-            var TmpNode;
-            if( undefined == chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
-                TmpNode = chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
-            i = i+2;
-            while( i<data[key].code.length ){
-              
-              if( TmpNode.children==undefined ) {
-                TmpNode.children=[];
-                TmpNode.iconClass="iconClassRoot";
-              };
-              if( undefined == TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
-              TmpNode = TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
-              i+= 2;
-            };
-            TmpNode.id=data[key].id;
-            TmpNode.code=data[key].code;
-            TmpNode.name=data[key].name;
-            TmpNode.iconClass="iconClassNode";
-            TmpNode.parents=dataType;
-            TmpNode.isModify=data[key].isModify;
-            TmpNode.isUse=data[key].isUse;
+        this.getDataList(obj,function(data){
+          for (var i = 0; i < data.length; i++) {
+            if(PNode.children[i] == undefined) PNode.children[i] ={}
+            PNode.children[i].id=data[i].id;
+            PNode.children[i].code=data[i].code;
+            PNode.children[i].name=data[i].name;
+            PNode.children[i].iconClass="iconClassNode";
+            if (PNode.children[i].children ==undefined) PNode.children[i].children= [];
+            if (PNode.children[i].children.length>0) PNode.children[i].iconClass="iconClassRoot";
+            PNode.children[i].parents=dataType;
+            PNode.children[i].isModify=data[i].isModify;
+            PNode.children[i].isUse=data[i].isUse;
           }
           _this.count+=1;
+        })
       },
       //接口
       getDataList(obj,callBack){
