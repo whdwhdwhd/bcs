@@ -344,6 +344,15 @@ export default {
           }
           this.rightObj.parents===undefined? obj.dataType=this.rightObj.id:obj.dataType=this.rightObj.parents;
           if(this.rightObj.code!=undefined) obj.code=this.rightObj.code;
+          if (this.rightObj.id==9 || this.rightObj.id==20 || this.rightObj.id==24 || this.rightObj.id==25 || this.rightObj.id==27 || this.rightObj.id==28) {
+            if (this.rightObj.code==undefined) {
+              this.$message({
+                type: 'warning',
+                message: '请先添加关联项'
+              });      
+              return false; 
+            }
+          }
           _this.addAjax(obj,this.rightObj.id) 
         } else if(this.dialogTitle=="修改") {
           var obj={
@@ -382,32 +391,107 @@ export default {
       },
       //循环列表
       ajaxList(dataType,data,chis){
-        console.log(data)
-        for (let key in data) {
-           var i=0;
-           var TmpNode;
-           if( undefined == chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
-              TmpNode = chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
-           i = i+2;
-           while( i<data[key].code.length ){
-             
-            if( TmpNode.children==undefined ) {
-              TmpNode.children=[];
-              TmpNode.iconClass="iconClassRoot";
-            };
-            if( undefined == TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
-            TmpNode = TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
-            i+= 2;
-          };
-          TmpNode.id=data[key].id;
-          TmpNode.code=data[key].code;
-          TmpNode.name=data[key].name;
-          TmpNode.iconClass="iconClassNode";
-          TmpNode.parents=dataType;
-          TmpNode.isModify=data[key].isModify;
-          TmpNode.isUse=data[key].isUse;
+        var _this=this;
+        if (dataType==9) {
+          this.getDataList({
+              dataType:5,   //数据种类
+              codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+              keyword:"",     //关键词
+              useType:2
+          },function(res){
+            for (let key in res) {
+              var i=0;
+              var TmpNode;
+              if( undefined == chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] = {};
+                  TmpNode = chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ];
+              TmpNode.id=res[key].id;
+              TmpNode.code=res[key].code;
+              TmpNode.name=res[key].name;
+              TmpNode.iconClass="iconClassNode";
+              TmpNode.parents=dataType;
+              TmpNode.isModify=res[key].isModify;
+              TmpNode.isUse=res[key].isUse;
+            }
+            _this.circulation(dataType,data,chis)
+          })
+        } else if ( dataType==24 || dataType==25 || dataType==27 ) {
+          this.getDataList({
+              dataType:62,   //数据种类
+              codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+              keyword:"",     //关键词
+              useType:2
+          },function(res){
+            for (let key in res) {
+              var i=0;
+              var TmpNode;
+              if( undefined == chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] = {};
+                  TmpNode = chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ];
+              TmpNode.id=res[key].id;
+              TmpNode.code=res[key].code;
+              TmpNode.name=res[key].name;
+              TmpNode.iconClass="iconClassNode";
+              TmpNode.parents=dataType;
+              TmpNode.isModify=res[key].isModify;
+              TmpNode.isUse=res[key].isUse;
+            }
+            _this.circulation(dataType,data,chis)
+          })
+        } else if ( dataType==20 || dataType==28) {
+          this.getDataList({
+              dataType:27,   //数据种类
+              codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+              keyword:"",     //关键词
+              useType:2
+          },function(res){
+            for (let key in res) {
+              var i=0;
+              var TmpNode;
+              if( undefined == chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ] = {};
+                  TmpNode = chis.children[ parseInt(res[key].code.substring(i,i+2))-1 ];
+              TmpNode.id=res[key].id;
+              TmpNode.code=res[key].code;
+              TmpNode.name=res[key].name;
+              TmpNode.iconClass="iconClassNode";
+              TmpNode.parents=dataType;
+              TmpNode.isModify=res[key].isModify;
+              TmpNode.isUse=res[key].isUse;
+            }
+            _this.circulation(dataType,data,chis)
+          })
+        } else {
+          _this.circulation(dataType,data,chis)
         }
-        console.log(chis)
+        
+        
+      },
+      //循环
+      circulation(dataType,data,chis){
+        var _this=this;
+        for (let key in data) {
+            var i=0;
+            var TmpNode;
+            if( undefined == chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
+                TmpNode = chis.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
+            i = i+2;
+            while( i<data[key].code.length ){
+              
+              if( TmpNode.children==undefined ) {
+                TmpNode.children=[];
+                TmpNode.iconClass="iconClassRoot";
+              };
+              if( undefined == TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] ) TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ] = {};
+              TmpNode = TmpNode.children[ parseInt(data[key].code.substring(i,i+2))-1 ];
+              i+= 2;
+            };
+            TmpNode.id=data[key].id;
+            TmpNode.code=data[key].code;
+            TmpNode.name=data[key].name;
+            TmpNode.iconClass="iconClassNode";
+            TmpNode.parents=dataType;
+            TmpNode.isModify=data[key].isModify;
+            TmpNode.isUse=data[key].isUse;
+          }
+          _this.count+=1;
       },
       //接口
       getDataList(obj,callBack){
