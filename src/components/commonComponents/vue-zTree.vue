@@ -227,8 +227,9 @@ export default{
 
 						m.loadNode = 0; 
 				
-				if( data.children===undefined )
+				if( data.children===undefined || data.children===null )
 					return;	
+					console.log(data)
 				while( i<data.children.length ){
 					m = data.children[i];
 					if(m==null){
@@ -238,9 +239,7 @@ export default{
 					i++;
 					recurrenceFunc(m);
                 }
-
             };
-
             recurrenceFunc(tempList[0]);
             this.treeDataSource = tempList;
         }

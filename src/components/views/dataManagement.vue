@@ -60,155 +60,13 @@
     </div>
 </template>
 <script>
-import vueZtree from '@/components/commonComponents/vue-ztree.vue'
+import vueZtree from '@/components/commonComponents/vue-ztree.vue';
 import goBack from '@/components/goBack';
+import configurationData from '../../../static/common/configurationData.json';
 export default {
     data () {
         return {
-            dataList:[
-              {
-                id:"1",
-                name:"配置信息",
-                children:[
-                  {
-                    id:"1",
-                    name:"性取向"
-                  },
-                  {
-                    id:"2",
-                    name:"学历"
-                  },
-                  {
-                    id:"3",
-                    name:"婚姻"
-                  },
-                  {
-                    id:"4",
-                    name:"房贷压力"
-                  },
-                  {
-                    id:"5",
-                    name:"语言种类"
-                  },
-                  {
-                    id:"6",
-                    name:"语言-读写能力"
-                  },
-                  {
-                    id:"7",
-                    name:"语言-听能力"
-                  },
-                  {
-                    id:"8",
-                    name:"语言-说能力"
-                  },
-                  {
-                    id:"9",
-                    name:"语言-考试等级"
-                  },
-                  {
-                    id:"10",
-                    name:"语速"
-                  },
-                  {
-                    id:"11",
-                    name:"思维"
-                  },
-                  {
-                    id:"12",
-                    name:"风格"
-                  },
-                  {
-                    id:"13",
-                    name:"特征"
-                  },
-                  {
-                    id:"14",
-                    name:"外形"
-                  },
-                  {
-                    id:"15",
-                    name:"气质"
-                  },
-                  {
-                    id:"16",
-                    name:"离家距离"
-                  },
-                  {
-                    id:"17",
-                    name:"工作强度"
-                  },
-                  {
-                    id:"18",
-                    name:"产品参与周期"
-                  },
-                  {
-                    id:"19",
-                    name:"产品重要性"
-                  },
-                  {
-                    id:"20",
-                    name:"证书"
-                  },
-                  {
-                    id:"21",
-                    name:"求职状态"
-                  },
-                  {
-                    id:"22",
-                    name:"大学类型"
-                  },
-                  {
-                    id:"23",
-                    name:"大学招收类型"
-                  },
-                  {
-                    id:"24",
-                    name:"知名比赛"
-                  },
-                  {
-                    id:"25",
-                    name:"知名刊物"
-                  },
-                  {
-                    id:"26",
-                    name:"大学"
-                  },
-                  {
-                    id:"27",
-                    name:"职位方向"
-                  },
-                  {
-                    id:"28",
-                    name:"职位"
-                  },
-                  {
-                    id:"29",
-                    name:"对象职位"
-                  },
-                  {
-                    id:"40",
-                    name:"公司类型"
-                  },
-                  {
-                    id:"41",
-                    name:"公司规模"
-                  },
-                  {
-                    id:"61",
-                    name:"城市"
-                  },
-                  {
-                    id:"62",
-                    name:"行业"
-                  },
-                  {
-                    id:"63",
-                    name:"领域城市"
-                  },
-                ]
-              }
-            ],
+            dataList:configurationData,
             ztreeData:[{
               id:Number,
               name:String,
@@ -225,26 +83,8 @@ export default {
               isUse:Number,
               isModify:Number
             },
-            ztreeDataSourceList:[{
-              id:880,
-              name:"娱乐",
-              iconClass:"iconClassRoot",
-              open:true,
-              children:[{
-                id:881,
-                name:"游戏",
-                iconClass:"iconClassNode",
-              },{
-                id:882,
-                name:"电影",
-                clickNode:true,
-                iconClass:"iconClassNode",
-              },{
-                id:883,
-                name:"新闻",
-                iconClass:"iconClassNode",
-              }]
-          }],
+            ADD_BTN:"添加",
+            SAVE_BTN:"修改",
           //右键事件
           contextMenuData: {
             menuName: 'demo',
@@ -283,7 +123,7 @@ export default {
     },
     watch:{
       dialogTitle:function(n,o){
-        if (this.dialogTitle==="添加") {
+        if (this.dialogTitle===this.ADD_BTN) {
           this.dialogForm={
               name:"",
               isUse:1,
@@ -313,7 +153,7 @@ export default {
       newdata () {
         var _this=this;
         _this.dialogTableVisible=true;
-        _this.dialogTitle="添加"; 
+        _this.dialogTitle=this.ADD_BTN; 
         this.dialogForm={
           name:"",
           isUse:1,
@@ -330,7 +170,7 @@ export default {
       savedata () {
         var _this=this;
         _this.dialogTableVisible=true;
-        _this.dialogTitle="修改";
+        _this.dialogTitle=this.SAVE_BTN;
         _this.dialogForm.name=this.rightObj.name;
         _this.dialogForm.isUse=this.rightObj.isUse;
         _this.dialogForm.isModify=this.rightObj.isModify;
@@ -354,7 +194,7 @@ export default {
       //提交
       subBtn(){
         var _this=this;
-        if (this.dialogTitle=="添加") {
+        if (this.dialogTitle==this.ADD_BTN) {
           console.log(this.rightObj)
           var obj={
             name:this.dialogForm.name,    //名
@@ -373,7 +213,7 @@ export default {
             }
           }
           _this.addAjax(obj,this.rightObj.id) 
-        } else if(this.dialogTitle=="修改") {
+        } else if(this.dialogTitle==this.SAVE_BTN) {
           var obj={
             id:this.rightObj.id,
             name:this.dialogForm.name,    //名
@@ -411,7 +251,6 @@ export default {
       },
 
       NewNode(data,PNode,dataType){
-        this.relevance(data,PNode,dataType)
         var tmpNode = PNode;
         var i = 0;
         while( i<data.code.length ){
@@ -434,14 +273,14 @@ export default {
       //循环列表
       ajaxList(dataType,data,chis){
         var _this=this;
+        this.relevance(chis,dataType)
         for (var i = 0; i < data.length; i++) {
           _this.NewNode(data[i],chis,dataType)
-          
         }
         this.count+=1;
       },
       //关联
-      relevance(data,PNode,dataType){
+      relevance(PNode,dataType){
         if ( dataType == 9 ) {
           var obj={
             dataType:5,   //数据种类
