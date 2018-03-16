@@ -42,18 +42,13 @@
                     <el-col :span="8">
                         <el-form-item label="性别：">
                             <el-radio-group v-model="cddInfoData.sex">
-                            <el-radio label="1">男</el-radio>
-                            <el-radio label="0">女</el-radio>
+                                <el-radio label="1">男</el-radio>
+                                <el-radio label="0">女</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="出生年月：">
-                            <!--<el-cascader
-                            :options="options5"
-                            v-model="time"
-                            ></el-cascader>-->
-                            <!--时间组件-->
                             <sel-time :name="'birthDay'" :times="cddInfoData.birthDay" v-model="cddInfoData.birthDay" @selT="setTime"></sel-time>
                         </el-form-item>
                     </el-col>
@@ -63,84 +58,112 @@
                         </el-form-item>-->
                     </el-col>
                 </el-row>
-                <!--<el-row class="mt">
+                <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="性取向：">
-                            <el-radio-group v-model="ruleForm.resource">
-                            <el-radio label="正常"></el-radio>
-                            <el-radio label="不正常"></el-radio>
+                            <el-radio-group v-model="cddInfoData.sexInterest">
+                                <el-radio v-for="item in dataList.sexual" :key="item.id" :label="item.code">{{item.name}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="外形：">
-                           
+                           <el-radio-group v-model="cddInfoData.personImage">
+                                <el-radio v-for="item in dataList.outlineList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
+
                     <el-col :span="8">
                         <el-form-item label="气质：">
+                            <el-radio-group v-model="cddInfoData.personQuality">
+                                <el-radio v-for="item in dataList.temperamentList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
-                </el-row>-->
-                <!--<el-row class="mt">
+                </el-row>
+                <el-row class="mt">
                     <el-col :span="8">
-                        <el-form-item label="体重：">
-                            
+                        <el-form-item label="体重（斤）：">
+                            <el-input v-model="cddInfoData.weight"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="身高：">
-                           
+                        <el-form-item label="身高（cm）：">
+                            <el-input v-model="cddInfoData.height"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="特征：">
-                            
+                            <el-radio-group v-model="cddInfoData.feature">
+                                <el-radio v-for="item in dataList.traitList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="语速：">
-                            
+                            <el-radio-group v-model="cddInfoData.talkSpeed">
+                                <el-radio v-for="item in dataList.speed" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="思维：">
-                           
+                           <el-radio-group v-model="cddInfoData.thinkWay">
+                                <el-radio v-for="item in dataList.thought" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="风格：">
-                            
+                            <el-radio-group v-model="cddInfoData.style">
+                                <el-radio v-for="item in dataList.styleList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
-                </el-row>-->
+                </el-row>
                 <el-row class="mt">
                     <el-col :span="24">
                         <el-form-item label="语言：">
                             <ul class="language">
-                                <li v-for="lang in languages">{{lang.value1}}    {{lang.value2}}<i class="el-icon-close"></i></li>
+                                <li v-for="lang in languagesList">{{lang.value1}}&sbnp;{{lang.value2}}&sbnp; <el-button size="mini" type="text" @click="dialogShow = false">修改</el-button>&sbnp;<el-button size="mini" type="text" @click="dialogShow = false">删除</el-button></li>
                             </ul>
                             <div class="fl">
-                                <!--<el-select v-model="language.value1" placeholder="语言类型">
-                                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>
-                                <el-select v-model="language.value2" placeholder="熟练程度">
-                                    <el-option v-for="item in options4" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                                </el-select>-->
-                                <el-button type="primary" v-popover:popover4>添加语言</el-button>
-                                <el-popover ref="popover4" width="400" trigger="click">
-                                    <h3>语言类型</h3>
-                                    <div>
-                                        <el-checkbox-group v-model="languageList">
-                                            <el-checkbox label="1">普通话</el-checkbox>
-                                            <el-checkbox label="2">英语</el-checkbox>
-                                            <el-checkbox label="3">德语</el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                </el-popover>
+                                <el-button type="primary" @click="dialogShow = true">添加语言</el-button>
                             </div>
+                            <el-dialog title="语言" :visible.sync="dialogShow" width="40%">
+                                <div class="mar-bot-tit">
+                                    <span class="fl-lh">语言类型：</span>
+                                </div>
+                                <div class="mar-bot">
+                                    <el-radio-group v-model="languages">
+                                        <el-radio class="lh" v-for="item in dataList.languageList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                                    </el-radio-group>
+                                </div>
+                                <div class="mar-bot-tit" v-if="dataList.degreeList.length">
+                                    <span class="fl-lh">熟练程度：</span>
+                                </div>
+                                <div class="mar-bot">
+                                    <el-radio-group v-model="lang.readWriteCode">
+                                        <el-radio class="lh" v-for="item in dataList.degreeList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                                    </el-radio-group>
+                                </div>
+                                <div class="mar-bot-tit" v-if="languages">
+                                    <span class="fl-lh">语言等级：</span>
+                                </div>
+                                <div class="mar-bot" v-if="languages">
+                                    <el-radio-group v-model="lang.levelCode">
+                                        <el-radio class="lh" v-for="item in dataList.levelList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                                    </el-radio-group>
+                                </div>
+                                <div class="btn-center">
+                                    <el-button size="mini" type="text" @click="dialogShow = false">取消</el-button>
+                                    <el-button type="primary" size="mini" @click="langusgeSub">保存</el-button>
+                                </div>
+                            </el-dialog>
+                            
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -158,7 +181,7 @@
                             prop="Email"
                             label="邮箱"
                             :rules="[{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }]">
-                            <el-input v-model="cddInfoData.Email"></el-input>
+                            <el-input v-model="cddInfoData.email"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -178,9 +201,8 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="婚姻：">
-                            <el-radio-group v-model="cddInfoData.marrySts">
-                                <el-radio label="1">已婚</el-radio>
-                                <el-radio label="2">未婚</el-radio>
+                            <el-radio-group v-model="cddInfoData.marriage">
+                                <el-radio v-for="item in dataList.marriage" :key="item.id" :label="item.code">{{item.name}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -240,17 +262,17 @@
                 </el-row>
                 <h3 class="formTitle">
                     <span>教育背景</span>
-                    <el-button class="fr" type="primary" icon="el-icon-plus" round></el-button>
+                    <el-button class="fr" type="primary" icon="el-icon-plus" round @click="addEducationExperience"></el-button>
                 </h3>
                 <!--教育背景-->
                 <div class="education">
                     <el-row class="mt">
                         <el-col :span="8">
-                            <!--<el-form-item label="学历：">
-                                <el-select v-model="ruleForm.eduExpList.diplomaCode" placeholder="请选择学历">
-                                    <el-option v-for="item in educationList" :key="item.id" :label="item.name" :value="item.code"></el-option>
+                            <el-form-item label="学历：">
+                                <el-select v-model="cddInfoData.diplomaCode" placeholder="请选择学历">
+                                    <el-option v-for="item in dataList.education" :key="item.id" :label="item.name" :value="item.code"></el-option>
                                 </el-select>
-                            </el-form-item>-->
+                            </el-form-item>
                         </el-col>
                         <el-col :span="8">
                             <!--<el-form-item label="毕业学校：">
@@ -276,9 +298,8 @@
                         </el-col>
                         <el-col :span="8">
                             <el-form-item label="是否统招：">
-                            <el-radio-group v-model="ruleForm.resource">
-                                <el-radio label="是"></el-radio>
-                                <el-radio label="否"></el-radio>
+                            <el-radio-group v-model="cddInfoData.eduTypeCode">
+                                <el-radio v-for="item in dataList.eduTypeList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
                             </el-radio-group>
                             </el-form-item>
                         </el-col>
@@ -437,20 +458,22 @@
                 <el-row class="mt">
                     <el-col :span="8">
                         <el-form-item label="离家距离：">
-                            <el-input class="aut"></el-input>
+                            <el-radio-group v-model="cddInfoData.hopeWorkDistance">
+                                <el-radio v-for="item in dataList.distanceList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="工作强度：">
-                            <el-select v-model="value2" placeholder="请选择工作强度">
-                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
+                            <el-radio-group v-model="cddInfoData.hopeWorkStress">
+                                <el-radio v-for="item in dataList.strengthList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="公司类型：">
                             <el-select v-model="value2" filterable placeholder="请选择公司类型">
-                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                <el-option v-for="item in dataList.options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -472,9 +495,9 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="当前状态：">
-                            <el-select v-model="value2" placeholder="请选择当前状态">
-                                <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                            </el-select>
+                            <el-radio-group v-model="cddInfoData.jobStatus">
+                                <el-radio v-for="item in dataList.jobStatusList" :key="item.id" :label="item.code">{{item.name}}</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -488,19 +511,163 @@
 <script>
   import goBack from '@/components/goBack';
   import selTime from '@/components/commonComponents/time';
+  import resumeData from '../../../../static/common/resumeData.json';
   export default {
     data() {
       return {
         cddInfoData:{},
-        languages:[],
-        languageList:[],
         literacyList:[],
-        listenList:[],
-        speakList:[],
+        resumeData:resumeData,
+        
         gradeList:[],
-        //接口列表
+        //语言
+        dialogShow:false,
+        languageRoot:[],
+        languages:"",
+        languagesList:[],
+        lang:{
+            "id":"",    //标识ID
+            "cddId":"",   //人选标识ID
+            "languageCode":"",    //语言码值
+            "readWriteCode":"",    //读写能力码值
+            "listenCode":"",    //听能力码值
+            "speakCode":"",    //说能力码值
+            "levelCode":""   //考试等级码值
+        },
+        dataList:{
+            sexual:[],
+            education:[],
+            marriage:[],
+            mortgage:[],
+            languageList:[],
+            degreeList:[],
+            listenList:[],
+            speakList:[],
+            levelList:[],
+            speed:[],
+            thought:[],
+            styleList:[],
+            traitList:[],
+            outlineList:[],
+            temperamentList:[],
+            distanceList:[],
+            strengthList:[],
+            productCycleList:[],
+            significanceList:[],
+            certificateList:[],
+            jobStatusList:[],
+            schoolList:[],
+            eduTypeList:[],
+        },
+        //接口列表   改改改
         educationList:[],
-        schoolList:[],
+        ajaxListArray:[
+            {
+                dataType:1,
+                listName:"sexual"
+            },{
+                dataType:2,
+                listName:"education"
+            },
+            {
+                dataType:3,
+                listName:"marriage"
+            },{
+                dataType:4,
+                listName:"mortgage"
+            },
+            {
+                dataType:5,
+                listName:"languageList"
+            },{
+                dataType:6,
+                listName:"degreeList"
+            },
+            {
+                dataType:7,
+                listName:"listenList"
+            },{
+                dataType:8,
+                listName:"speakList"
+            },
+            {
+                dataType:9,
+                listName:"levelList",
+                relevance:"1",
+                relatedItems:"5",
+                stairName:"languages"
+            },{
+                dataType:10,
+                listName:"speed"
+            },
+            {
+                dataType:11,
+                listName:"thought"
+            },{
+                dataType:12,
+                listName:"styleList"
+            },
+            {
+                dataType:13,
+                listName:"traitList"
+            },{
+                dataType:14,
+                listName:"outlineList"
+            },
+            {
+                dataType:15,
+                listName:"temperamentList"
+            },{
+                dataType:16,
+                listName:"distanceList"
+            },
+            {
+                dataType:17,
+                listName:"strengthList"
+            },{
+                dataType:18,
+                listName:"productCycleList"
+            },
+            {
+                dataType:19,
+                listName:"significanceList"
+            },
+            // {
+            //     dataType:20,
+            //     listName:"certificateList",
+            //     relevance:"1",
+            //     relatedItems:"27"
+            // },
+            {
+                dataType:21,
+                listName:"jobStatusList"
+            },{
+                dataType:22,
+                listName:"schoolList"
+            },
+            {
+                dataType:23,
+                listName:"eduTypeList"
+            },
+            // {
+            //     dataType:6,
+            //     listName:"degreeList"
+            // },
+            // {
+            //     dataType:7,
+            //     listName:"listenList"
+            // },{
+            //     dataType:8,
+            //     listName:"speakList"
+            // },
+        ],
+        related:"",
+
+
+
+
+
+
 
 
         data:{
@@ -759,423 +926,207 @@
         }
     },
     created: function () {
-        this.getCddInfo();
-        this.uploadFile();
-        // this.getupdateEduExp()
+        // this.getCddInfo();
+        // this.ajaxList()
+        // this.uploadFile();
 
-        this.handleItemChange();
+        // this.handleItemChange();
+    },
+    mounted(){
+        this.getCddInfo();
+        // console.log(this.$qs.stringify(this.resumeData))
     },
     watch:{
         
     },
     methods: {
+      ajaxList(){
+          for (var i = 0; i < this.ajaxListArray.length; i++) {
+            this.listRequest(this.ajaxListArray[i])
+          }
+      },
+      listRequest(data,stairName){
+        var _this=this;
+        var obj={
+            dataType:data.dataType,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:1
+        };
+        if (!data.relevance) {
+            this.getDataList(obj,function(res){
+                _this.dataList[data.listName]=res;
+            })
+        }else{
+            this.$watch(data.stairName,function(newData,oldData){
+                obj.codePrefix=newData;
+                _this.getDataList(obj,function(res){
+                    _this.dataList[data.listName]=res;
+                })
+            })
+        }
+        
+      },
+      //计算获取数据infoFlag
+      calculateInfoFlag(){
+        var nums=0;
+        var calculate=function(str){
+            var n=str.split("+")[1];
+            var y="1";
+            for (var x = 0; x < n; x++) {
+                y=y+"0"
+            }
+            return y;
+        }
+        for (var i = 0; i < this.resumeData.length; i++) {
+            var num=Math.pow(10,this.resumeData[i].infoFlag);
+            console.log(num)
+            console.log(nums)
+            var str=num.toString();
+            if(str.indexOf("e")!=-1){
+                nums+=parseInt(calculate(str),2)
+            }else{
+                nums+=parseInt(str,2);
+            } 
+        }
+        return nums;
+      },
       // 获取详细信息
       getCddInfo(){
           var _this=this;
-          this.$http.get(totalPort.getCddInfo()+'?cddId='+this.$route.query.id+'&infoFlag=73300775185').then((data) => {
+          var nums=this.calculateInfoFlag();
+          this.$http({
+            url:totalPort.getCddInfo(),
+            method:"post",
+            data:this.$qs.stringify({
+                    cddId:_this.$route.query.id,
+                    infoFlag:nums
+                })
+            })
+          .then((data) => {
             if (data.data.code==0) {
                 this.cddInfoData=data.data.data;
+                this.ajaxList()
+                console.log(this.cddInfoData)
             }else{
                 console.log("报错详细信息")
             }
-            this.getLanguageInfoById()
         }).catch(function(err){
             _this.$message.error('请求数据失败，请刷新页面！');
         });
       },
-
-// *****************************语言**************************************
-      //获取语言
-      getLanguageInfoById(){
+      //语言保存
+      langusgeSub(){
         var _this=this;
-        this.$http.get(totalPort.getLanguageInfoById()+'?lanId=1').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错语言")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //删除某个语言
-      deleteLanguageInfo(){
-        var _this=this;
-        this.$http.get(totalPort.deleteLanguageInfo()+'?lanId=1').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //更新某个语言
-      updateLanguageInfoById(){
-        var _this=this;
-        this.$http.get(totalPort.updateLanguageInfoById()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //添加某个语言
-      addLanguageInfo(){
-        var _this=this;
-        this.$http.get(totalPort.addLanguageInfo()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-// *****************************孩子**************************************
-      //获取某个孩子信息
-      getChildInfoById(){
-        var _this=this;
-        this.$http.get(totalPort.getChildInfoById()+'?childId=1').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //删除某个孩子
-      deleteChildInfo(){
-        var _this=this;
-        this.$http.get(totalPort.deleteChildInfo()+'?childId=1').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //更新某个孩子
-      updateChildInfoById(){
-        var _this=this;
-        this.$http.get(totalPort.updateChildInfoById()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //添加某个孩子信息
-      addChildInfo(){
-        var _this=this;
-        this.$http.get(totalPort.addChildInfo()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-// *****************************工作经历**************************************
-      //删除某段工作经历
-      deleteWorkExp(){
-        var _this=this;
-        this.$http.get(totalPort.deleteWorkExp()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //更新某段工作经历
-      updateWorkExp(){
-        var _this=this;
-        console.log(this.$route.query.id) 
-        this.$http.get(totalPort.updateWorkExp()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //添加某段工作经历或经历中的某些信息
-      addWorkExp(){
-        var _this=this;
-        console.log(this.$route.query.id) 
-        this.$http.get(totalPort.addWorkExp()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-// *****************************教育经历**************************************
-      //获取某段教育经历
-      getEduExpById(){
-        var _this=this;
-        console.log(this.$route.query.id) 
-        this.$http.get(totalPort.getEduExpById()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //添加某段教育经历
-      addEduExp(){
-        var _this=this;
-        console.log(this.$route.query.id) 
-        this.$http.get(totalPort.addEduExp()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //删除某段教育经历
-      deleteEduExp(){
-        var _this=this;
-        console.log(this.$route.query.id) 
-        this.$http.get(totalPort.deleteEduExp()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //更新某段教育经历
-      updateEduExp(){
-        var _this=this;
-        console.log(this.$route.query.id) 
-        this.$http.get(totalPort.updateEduExp()+'参数').then((data) => {
-            if (data.code==0) {
-                this.languages=data.data.posInfo;
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      //系统配置
-      updateEduExp(obj,callBack){
-        var _this=this;
-        var str=JSON.stringify(obj);
-        this.$http.get(totalPort.updateEduExp()+str).then((data) => {
-            if (data.code==0) {
-                callBack(data.data);
-            }else{
-                console.log("报错")
-            }
-        }).catch(function(err){
-            _this.$message.error('请求数据失败，请刷新页面！');
-        });
-      },
-      getupdateEduExp(){
-        //性取向
-        // this.updateEduExp({
-        //     dataType:1,   //数据种类
-        //     codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-        //     keyword:"",     //关键词
-        //     useType:1
-        // },function(data){
-        //     console.log(data)
-        // })
-        //学历
-        this.updateEduExp({
-            dataType:2,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:1
-        },function(data){
-            this.educationList=data;
-        })
-        //婚姻
-        this.updateEduExp({},function(){
-
-        })
-        //房贷压力
-        this.updateEduExp({},function(){
-
-        })
-        //语言种类
-        this.updateEduExp({
-            dataType:5,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:1
-        },function(data){
-            this.languageList=data;
-        })
-        //语言-读写能力
-        this.updateEduExp({
-            dataType:6,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:1
-        },function(data){
-            this.literacyList=data;
-        })
-        //语言-听能力
-        this.updateEduExp({
-            dataType:7,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:1
-        },function(data){
-            this.listenList=data;
-        })
-        //语言-说能力
-        this.updateEduExp({
-            dataType:8,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:1
-        },function(data){
-            this.speakList=data;
-        })
-        //语言考试等级，与语言种类相关
-        this.updateEduExp({
-            dataType:9,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:1
-        },function(data){
-            this.gradeList=data;
-        })
-        //语速
-        this.updateEduExp({},function(){
-
-        })
-        //思维
-        this.updateEduExp({},function(){
-
-        })
-        //风格
-        this.updateEduExp({},function(){
-
-        })
-        //特征
-        this.updateEduExp({},function(){
-
-        })
-        //外形
-        this.updateEduExp({},function(){
-
-        })
-        //气质
-        this.updateEduExp({},function(){
-
-        })
-        //离家距离
-        this.updateEduExp({},function(){
-
-        })
-        //工作强度
-        this.updateEduExp({},function(){
-
-        })
-        //产品参与周期
-        this.updateEduExp({},function(){
-
-        })
-        //产品重要性
-        this.updateEduExp({},function(){
-
-        })
-        //证书--与职位方向关联
-        this.updateEduExp({},function(){
-
-        })
-        //求职状态
-        this.updateEduExp({},function(){
-
-        })
-        //大学类型
-        this.updateEduExp({},function(){
-
-        })
-        //大学招收类型
-        this.updateEduExp({},function(){
-
-        })
-        //产品重要性
-        this.updateEduExp({},function(){
-
-        })
-        //知名比赛 -- 与行业关联
-        this.updateEduExp({},function(){
-
-        })
-        //知名刊物 -- 与行业关联
-        this.updateEduExp({},function(){
-
-        })
-        //对象职位
-        this.updateEduExp({},function(){
-
-        })
+        if(!this.languages){
+            this.$message({
+                type: 'warning',
+                message: '请选择语言!'
+            });
+            return false;
+        }
+        var obj={
+            id:1,      //标识ID
+            cddId:1,      //人选标识ID
+            languageCode:this.languages,      //语言码值
+            readWriteCode:this.lang.readWriteCode,      //读写能力码值
+            levelCode:this.lang.levelCode      //考试等级码值
+        }
         
-        //职位方向，与行业关联
-        this.updateEduExp({},function(){
-
+        this.ajaxPort(1,2,obj,function(data){
+            //模拟
+            // _this.languagesList.push()
+            // _this.ajaxPort(1,1,{lanId:1},function(data){console.log(data)})
+            
         })
-        //职位，与职位方向关联
-        this.updateEduExp({},function(){
-
+        this.dialogShow=false;
+      },
+// *****************************语言**************************************
+      //type:1语言  2孩子  3工作经历  4教育经历
+      //status:1查  2增  3改  4删除
+      ajaxPort(type,status,obj,callBack){
+        var url;
+        switch(type){
+            case 1:
+            if(status==1)url=totalPort.getLanguageInfoById();
+            if(status==2)url=totalPort.addLanguageInfo();
+            if(status==3)url=totalPort.updateLanguageInfoById();
+            if(status==4)url=totalPort.deleteLanguageInfo();
+            break;
+            case 2:
+            if(status==1)url=totalPort.getChildInfoById();
+            if(status==2)url=totalPort.addChildInfo();
+            if(status==3)url=totalPort.updateChildInfoById();
+            if(status==4)url=totalPort.deleteChildInfo();
+            break;
+            case 3:
+            // if(status==1)url=totalPort.getLanguageInfoById();
+            if(status==2)url=totalPort.addWorkExp();
+            if(status==3)url=totalPort.updateWorkExp();
+            if(status==4)url=totalPort.deleteWorkExp();
+            break;
+            case 4:
+            if(status==1)url=totalPort.getEduExpById();
+            if(status==2)url=totalPort.addEduExp();
+            if(status==3)url=totalPort.updateEduExp();
+            if(status==4)url=totalPort.deleteEduExp();
+            break;
+        }
+        this.$http({
+            url:url,
+            method:"post",
+            data:this.$qs.stringify(obj)
         })
-        //公司类型
-        this.updateEduExp({},function(){
-
-        })
-        //公司规模
-        this.updateEduExp({},function(){
-
-        })
-        //城市
-        this.updateEduExp({},function(){
-
-        })
-        //行业
-        this.updateEduExp({},function(){
-
-        })
-        //领域
-        this.updateEduExp({},function(){
-
-        })
+        .then((data) => {
+            if (data.data.code==0) {
+                callBack(data.data.data)
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+            console.log(err)
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      lanShow(a,b){
+        console.log(a)
+        console.log(b)
+      },
+      //接口
+      getDataList(obj,callBack){
+        var _this=this;
+        this.$http({
+          url: totalPort.getDataList(),
+           method: 'post', 
+           data: this.$qs.stringify(obj)})
+        .then((data) => {
+            if (data.data.code==0) {
+                if (data.data.data===undefined) {
+                  data.data.data=[];
+                }
+                callBack(data.data.data);
+            }else{
+                console.log("报错")
+            }
+        }).catch(function(err){
+          console.log(err)
+            _this.$message.error('请求数据失败，请刷新页面！');
+        });
+      },
+      //添加教育经历
+      addEducationExperience(){
+        var eduExpList={//教育经历
+            id:"",       //标识ID
+            cddId:"",       //人选标识ID
+            school:"",       //学校名
+            major:"",       //专业名
+            startTime:"",       //就读年月
+            endTime:"",       //毕业年月
+            diplomaCode:"",       //	学历码值
+            eduTypeCode:"",       //招收类型码值
+            schoolCode:"",       //学校码值
+            majorCode:""       //专业码值
+        }
       },
       //输入文字搜索相关
       schoolMethod(vel){
@@ -1192,20 +1143,36 @@
       //修改简历
       modification(){
         var _this=this;
-        var str="?";
-        for (var key in this.cddInfoData) {
-            str+=key+"="+this.cddInfoData[key]+"&";
-        }
-        str=str+"updateFlag=266547945"
-        console.log(str)
-        this.$http.get(totalPort.updateCddInfo()+str).then((data) => {
+        this.cddInfoData.updateFlag=_this.calculateInfoFlag();
+        console.log(_this.cddInfoData)
+        this.$http({
+          url: totalPort.updateCddInfo(),
+           method: 'post', 
+           data: _this.cddInfoData,
+           transformRequest: [
+            function (data) { // 解决传递数组变成对象的问题
+                Object.keys(data).forEach((key) => {
+                    if ((typeof data[key]) === 'object') {
+                        data[key] = JSON.stringify(data[key]) // 这里必须使用内置JSON对象转换
+                    }
+                })
+                data = _this.$qs.stringify(data) // 这里必须使用qs库进行转换
+                return data
+            }
+           ]
+        })
+        .then((data) => {
             console.log(data)
-            // if (data.code==0) {
-                
+            // if (data.data.code==0) {
+            //     if (data.data.data===undefined) {
+            //       data.data.data=[];
+            //     }
+            //     callBack(data.data.data);
             // }else{
             //     console.log("报错")
             // }
         }).catch(function(err){
+          console.log(err)
             _this.$message.error('请求数据失败，请刷新页面！');
         });
       },
@@ -1341,5 +1308,24 @@
   }
   .aut{
       width:auto;
+  }
+  .lh{
+    line-height: 30px;
+  }
+  .btn-center{
+    text-align: center;
+  }
+  .mar-bot{
+    margin-bottom: 15px;
+  }
+  .mar-bot-tit{
+    height: 30px;
+    margin-bottom: 15px;
+  }
+  .fl-lh{
+      float:left;
+      line-height: 30px;
+      height: 30px;
+      text-indent: 2em;
   }
 </style>

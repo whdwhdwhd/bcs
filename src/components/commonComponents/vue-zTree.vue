@@ -214,22 +214,21 @@ export default{
                 var i=0;
 				var m=data;
 				if(!m.hasOwnProperty("clickNode")){
-							m.clickNode = m.hasOwnProperty("clickNode") ? m.clickNode : false;
-						}
-				
-						if(	!m.hasOwnProperty("isFolder") ) {
-							m.isFolder =  m.hasOwnProperty("open") ? m.open : this.isOpen;
-						}
+					m.clickNode = m.hasOwnProperty("clickNode") ? m.clickNode : false;
+				}
+		
+				if(	!m.hasOwnProperty("isFolder") ) {
+					m.isFolder =  m.hasOwnProperty("open") ? m.open : this.isOpen;
+				}
 
-						if(	!m.hasOwnProperty("isExpand") ) {
-							m.isExpand =  m.hasOwnProperty("open") ? m.open : this.isOpen;
-						}
-
-						m.loadNode = 0; 
+				if(	!m.hasOwnProperty("isExpand") ) {
+					m.isExpand =  m.hasOwnProperty("open") ? m.open : this.isOpen;
+				}
+				if( !m.children || m.children.length>0 ) m.iconClass="iconClassRoot"
+				m.loadNode = 0; 
 				
-				if( data.children===undefined || data.children===null )
+				if( !data.children )
 					return;	
-					console.log(data)
 				while( i<data.children.length ){
 					m = data.children[i];
 					if(m==null){

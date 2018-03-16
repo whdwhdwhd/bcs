@@ -195,7 +195,6 @@ export default {
       subBtn(){
         var _this=this;
         if (this.dialogTitle==this.ADD_BTN) {
-          console.log(this.rightObj)
           var obj={
             name:this.dialogForm.name,    //名
             isUse:parseInt(this.dialogForm.isUse),    //1—启用/0—停用
@@ -219,7 +218,7 @@ export default {
             name:this.dialogForm.name,    //名
             isUse:parseInt(this.dialogForm.isUse),    //1—启用/0—停用
             isModify:parseInt(this.dialogForm.isModify),    //是否可编辑/删除 1—可 0 –不可
-            dataType:parseInt(this.rightObj.parent)
+            dataType:parseInt(this.rightObj.parents)
           }
           _this.saveAjax(obj)
         }
@@ -236,17 +235,21 @@ export default {
           var strNum=2;
           _this.ajaxData=data;
           _this.ztreeData[0].children=null;
+          _this.ztreeData[0].relevance=null;
+          _this.ztreeData[0].relatedItems=null;
           _this.ztreeData[0].id=index;
           var childrens=_this.dataList[indexPath[0]-1].children;
           for (var chi in childrens) {
             if (childrens[chi].id==indexPath[1]) {
-              _this.ztreeData[0].name=childrens[chi].name;   
+              _this.ztreeData[0].name=childrens[chi].name;
+              if (childrens[chi].relevance) {
+                _this.ztreeData[0].relevance=childrens[chi].relevance;
+                _this.ztreeData[0].relatedItems=childrens[chi].relatedItems;
+              }  
               break;
             }
           }
-          //_this.ztreeData[0].children=[];
           _this.ajaxList(index,data,_this.ztreeData[0])
-          _this.count+=1;
         })
       },
 
@@ -272,56 +275,42 @@ export default {
 
       //循环列表
       ajaxList(dataType,data,chis){
-        var _this=this;
-        this.relevance(chis,dataType)
-        for (var i = 0; i < data.length; i++) {
-          _this.NewNode(data[i],chis,dataType)
+        console.log(chis.relevance)
+        if (chis.relevance) {
+          var obj={
+            dataType:chis.relatedItems,   //数据种类
+            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
+            keyword:"",     //关键词
+            useType:2
+          }
+          this.secondary(obj,chis,data,dataType)
+        }else{
+          for (var i = 0; i < data.length; i++) {
+            this.NewNode(data[i],chis,dataType)
+          }
+          this.count+=1;
         }
-        this.count+=1;
-      },
-      //关联
-      relevance(PNode,dataType){
-        if ( dataType == 9 ) {
-          var obj={
-            dataType:5,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:2
-          }
-          this.secondary(obj,PNode,dataType)
-        }else if(dataType == 24 || dataType == 25 || dataType == 27 ){
-          var obj={
-            dataType:62,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:2
-          }
-          this.secondary(obj,PNode,dataType)
-        }else if( dataType == 20 || dataType == 28 ){
-          var obj={
-            dataType:27,   //数据种类
-            codePrefix:"",   //编码前缀，例如：互联网行业下的职位方向，则需携带互联网码值
-            keyword:"",     //关键词
-            useType:2
-          }
-          this.secondary(obj,PNode,dataType)
-        }
+        
       },
       //次级
-      secondary(obj,PNode,dataType){
+      secondary(obj,PNode,data2,dataType){
         var _this=this;
         this.getDataList(obj,function(data){
           for (var i = 0; i < data.length; i++) {
+            if (data[i].code.length>2) continue;
+            if( !PNode.children ) PNode.children=[];
             if(PNode.children[i] == undefined) PNode.children[i] ={}
             PNode.children[i].id=data[i].id;
             PNode.children[i].code=data[i].code;
             PNode.children[i].name=data[i].name;
             PNode.children[i].iconClass="iconClassNode";
             if (PNode.children[i].children ==undefined) PNode.children[i].children= [];
-            if (PNode.children[i].children.length>0) PNode.children[i].iconClass="iconClassRoot";
             PNode.children[i].parents=dataType;
             PNode.children[i].isModify=data[i].isModify;
             PNode.children[i].isUse=data[i].isUse;
+          }
+          for (var i = 0; i < data2.length; i++) {
+            _this.NewNode(data2[i],PNode,dataType)
           }
           _this.count+=1;
         })

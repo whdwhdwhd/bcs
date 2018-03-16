@@ -15,6 +15,8 @@ var totalPort={
      
     //获取详细的会员信息
     getCddInfo:function(){return this.port+"/cdd/info/getCddInfo.htm"},
+    //添加会员信息
+    addCddInfo:function(){return this.port+"/cdd/info/addCddInfo.htm"},
     //更新会员信息
     updateCddInfo:function(){return this.port+"/cdd/info/updateCddInfo.htm"},
     
@@ -39,7 +41,7 @@ var totalPort={
     //添加某段教育经历
     addEduExp:function(){return this.port+"/cdd/info/addEduExp.htm"},
     //删除某段教育经历
-    getEduExpById:function(){return this.port+"/cdd/info/deleteEduExp.htm"},
+    deleteEduExp:function(){return this.port+"/cdd/info/deleteEduExp.htm"},
     //更新某段教育经历
     updateEduExp:function(){return this.port+"/cdd/info/updateEduExp.htm"},
 
@@ -48,9 +50,9 @@ var totalPort={
     //删除某个孩子
     deleteChildInfo:function(){return this.port+"/cdd/info/deleteChildInfo.htm"},
     //更新某个孩子
-    updateEduExp:function(){return this.port+"/cdd/info/updateChildInfoById.htm"},
+    updateChildInfoById:function(){return this.port+"/cdd/info/updateChildInfoById.htm"},
     //添加某个孩子
-    updateEduExp:function(){return this.port+"/cdd/info/addChildInfo.htm"},
+    addChildInfo:function(){return this.port+"/cdd/info/addChildInfo.htm"},
     
     //系统配置
     getDataList:function(){return this.port+"/system/getDataList.htm"},
